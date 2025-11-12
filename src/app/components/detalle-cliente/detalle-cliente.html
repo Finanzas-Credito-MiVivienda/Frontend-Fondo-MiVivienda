@@ -1,0 +1,82 @@
+
+<div class="bg-[#7a0000] text-white p-4 flex items-center justify-between">
+  <div class="flex items-center gap-2">
+    <img src="logo-mivivienda.png" alt="Mivivienda" class="h-8" />
+    <h1 class="font-bold text-xl">MIVIVIENDA INMOBILIARIA</h1>
+  </div>
+</div>
+
+
+<div class="flex min-h-screen bg-gray-100">
+
+  <!-- Sidebar -->
+  <aside class="w-20 bg-[#7a0000] flex flex-col items-center py-6 text-white space-y-6">
+    <button class="hover:text-yellow-400"><i class="fas fa-user text-2xl"></i></button>
+    <button class="hover:text-yellow-400"><i class="fas fa-building text-2xl"></i></button>
+    <button class="hover:text-yellow-400"><i class="fas fa-cog text-2xl"></i></button>
+    <button class="hover:text-yellow-400"><i class="fas fa-list-alt text-2xl"></i></button>
+  </aside>
+
+
+  <main class="flex-1 p-8">
+
+    <button class="mb-4 text-gray-600 hover:text-black">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+
+    <h2 class="text-center text-2xl font-semibold mb-6">Detalle de Registro del Cliente</h2>
+
+
+    <div class="bg-white rounded-2xl shadow-md p-8 max-w-3xl mx-auto">
+      <form class="grid grid-cols-2 gap-x-8 gap-y-4">
+        <div class="col-span-2">
+          <label class="block text-gray-600 font-medium mb-1">Nombre completo:</label>
+          <input type="text" class="w-full border rounded-lg px-3 py-2 bg-gray-100" placeholder="Ingrese nombre completo" />
+        </div>
+
+        <div class="col-span-2">
+          <label class="block text-gray-600 font-medium mb-1">Apellidos:</label>
+          <input type="text" class="w-full border rounded-lg px-3 py-2 bg-gray-100" placeholder="Ingrese apellidos" />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Nro de documento de identidad:</label>
+          <input type="text" class="w-full border rounded-lg px-3 py-2 bg-gray-100" placeholder="Ingrese DNI" />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Estado Civil:</label>
+          <select class="w-full border rounded-lg px-3 py-2 bg-gray-100">
+            <option value="">Seleccionar</option>
+            <option>Soltero(a)</option>
+            <option>Casado(a)</option>
+            <option>Divorciado(a)</option>
+            <option>Viudo(a)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Teléfono:</label>
+          <input type="text" class="w-full border rounded-lg px-3 py-2 bg-gray-100" placeholder="Ingrese teléfono" />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Correo:</label>
+          <input type="email" class="w-full border rounded-lg px-3 py-2 bg-gray-100" placeholder="Ingrese correo" />
+        </div>
+
+        <div class="col-span-2">
+          <label class="block text-gray-600 font-medium mb-1">Ingreso mensual:</label>
+          <input type="text" class="w-full border rounded-lg px-3 py-2 bg-gray-100" placeholder="S/. 0.00" />
+        </div>
+      </form>
+    </div>
+
+
+    <div class="flex justify-center gap-6 mt-6">
+      <button class="bg-gray-200 px-6 py-2 rounded-full font-semibold hover:bg-gray-300">Modificar</button>
+      <button class="bg-gray-800 text-white px-6 py-2 rounded-full font-semibold hover:bg-gray-900">Guardar</button>
+    </div>
+
+  </main>
+</div>
