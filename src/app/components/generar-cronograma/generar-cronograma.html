@@ -1,0 +1,452 @@
+<!-- HEADER -->
+<div class="fixed top-0 left-0 right-0 h-14 bg-red-900 z-50 flex items-center justify-center shadow-md">
+  <h1 class="text-white font-extrabold text-2xl tracking-wide">MIVIVIENDA INMOBILIARIA</h1>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="fixed top-14 left-0 bottom-0 w-32 bg-red-700 text-white z-40 flex flex-col items-center py-6 space-y-6">
+
+  <!-- USUARIO -->
+  <div class="w-full flex justify-center flex-none">
+    <button mat-icon-button [matMenuTriggerFor]="menuUsuario" aria-label="Abrir menú de usuario"
+      class="rounded-full p-0 flex items-center justify-center" style="width:60px;height:60px;">
+      <mat-icon style="font-size:44px; width:44px; height:44px; color:white;">account_circle</mat-icon>
+    </button>
+  </div>
+
+  <mat-menu #menuUsuario="matMenu">
+    <button mat-menu-item (click)="irPerfil()"><mat-icon>person</mat-icon>Perfil</button>
+    <button mat-menu-item (click)="logout()"><mat-icon>logout</mat-icon>Cerrar sesión</button>
+  </mat-menu>
+
+  <!-- LINKS -->
+  <a routerLink="/oferta-inmueble" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+    class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+    <mat-icon class="text-white text-4xl">home</mat-icon>
+    <span class="text-xs mt-1">Inmuebles</span>
+  </a>
+
+  <a routerLink="/registrar-entidad-financiera" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+    class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+    <mat-icon class="text-white text-4xl">account_balance</mat-icon>
+    <span class="text-xs mt-1">Entidad</span>
+  </a>
+
+  <a routerLink="/generar-credito" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+    class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+    <mat-icon class="text-white text-4xl">attach_money</mat-icon>
+    <span class="text-xs mt-1">Crédito</span>
+  </a>
+
+  <a routerLink="/generar-cronograma" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+    class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+    <mat-icon class="text-white text-4xl">event_note</mat-icon>
+    <span class="text-xs mt-1">Cronograma</span>
+  </a>
+
+</aside>
+
+<!-- CONTENIDO -->
+<div class="ml-[160px] pt-[70px] p-8 bg-gray-50 min-h-screen space-y-10">
+
+  <!-- TÍTULO -->
+  <div>
+    <h1 class="text-4xl font-extrabold text-gray-900">Cronograma de Pagos</h1>
+    <p class="text-gray-600 mt-1">Resumen detallado del financiamiento y flujos de pago</p>
+  </div>
+
+  <!-- TARJETAS -->
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-stretch">
+
+    <!-- CARD DATOS -->
+    <div class="col-span-1 lg:col-span-3 bg-white shadow-lg rounded-2xl p-8 border border-gray-200 h-full">
+
+      <h2 class="flex items-center gap-3 text-xl font-bold text-gray-800 mb-6">
+        <span class="block w-1 h-7 bg-red-700 rounded"></span> Datos del Financiamiento
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+        <!-- columna 1 -->
+        <div class="space-y-5">
+          <div>
+            <div class="flex items-center gap-2 text-gray-500 text-sm">
+              <mat-icon class="text-red-700">event</mat-icon> Fecha de Registro
+            </div>
+            <p class="text-xl font-bold text-gray-900">{{ datosCredito.fechaRegistro }}</p>
+          </div>
+
+          <div>
+            <div class="flex items-center gap-2 text-gray-500 text-sm">
+              <mat-icon class="text-red-700">account_balance_wallet</mat-icon>
+              Saldo a Financiar del Activo
+            </div>
+            <p class="text-xl font-bold text-gray-900">
+              {{ getSimbolo() }} {{ datosCredito.saldoFinanciar | number:'1.2-2' }}
+            </p>
+          </div>
+
+          <div>
+            <div class="flex items-center gap-2 text-gray-500 text-sm">
+              <mat-icon class="text-red-700">attach_money</mat-icon> Valor BBP
+            </div>
+            <p class="text-xl font-bold text-gray-900">
+              {{ getSimbolo() }} {{ datosCredito.bbp | number:'1.2-2' }}
+            </p>
+          </div>
+        </div>
+
+        <!-- columna 2 -->
+        <div class="space-y-5">
+          <div>
+            <div class="flex items-center gap-2 text-gray-500 text-sm">
+              <mat-icon class="text-red-700">payments</mat-icon> Monto del Préstamo
+            </div>
+            <p class="text-xl font-bold text-gray-900">
+              {{ getSimbolo() }} {{ datosCredito.montoPrestamo | number:'1.2-2' }}
+            </p>
+          </div>
+
+          <div>
+            <div class="flex items-center gap-2 text-gray-500 text-sm">
+              <mat-icon class="text-red-700">repeat</mat-icon> N° Cuotas por Año
+            </div>
+            <p class="text-xl font-bold text-gray-900">{{ datosCredito.nCuotasxAnio }}</p>
+          </div>
+
+          <div>
+            <div class="flex items-center gap-2 text-gray-500 text-sm">
+              <mat-icon class="text-red-700">calendar_month</mat-icon> N° Total de Cuotas
+            </div>
+            <p class="text-xl font-bold text-gray-900">{{ datosCredito.nTotalCuotas }}</p>
+          </div>
+        </div>
+
+        <!-- columna 3 -->
+        <div class="space-y-5">
+
+          <div>
+            <div class="flex items-center gap-2 text-gray-500 text-sm">
+              <mat-icon class="text-red-700">percent</mat-icon> Tasa dscto (COK)
+            </div>
+            <p class="text-xl font-bold text-gray-900">
+              {{ datosCredito.pCuotaInicial | number:'1.3-3' }}%
+            </p>
+          </div>
+
+          <div>
+            <div class="flex items-center gap-2 text-gray-500 text-sm">
+              <mat-icon class="text-red-700">security</mat-icon> Seguro Desgravamen (TSD)
+            </div>
+            <p class="text-xl font-bold text-gray-900">
+              {{ datosCredito.seguroDesgravamenPerd | number:'1.3-3' }}%
+            </p>
+          </div>
+
+          <div>
+            <div class="flex items-center gap-2 text-gray-500 text-sm">
+              <mat-icon class="text-red-700">verified_user</mat-icon> Seguro de Riesgo (TSR)
+            </div>
+            <p class="text-xl font-bold text-gray-900">
+              {{ datosCredito.seguroRiesgoPerd | number:'1.3-3' }}%
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CARD BOTONES (MISMA ALTURA) -->
+    <div class="col-span-1 bg-white shadow-lg rounded-2xl p-6 border border-gray-200 
+                flex flex-col justify-center space-y-4 h-full">
+
+      <button class="px-5 py-3 bg-blue-700 text-white rounded-xl hover:bg-blue-800 w-full"
+        (click)="generarTabla()">Generar Tabla</button>
+
+      <button class="px-5 py-3 bg-green-700 text-white rounded-xl hover:bg-green-800 w-full
+                    disabled:bg-gray-400 disabled:cursor-not-allowed" (click)="verTotales()"
+        [disabled]="!tablaGenerada">
+        Ver Totales
+      </button>
+
+      <button class="px-5 py-3 bg-yellow-600 text-white rounded-xl hover:bg-yellow-700 w-full
+                    disabled:bg-gray-400 disabled:cursor-not-allowed" (click)="verIndicadores()"
+        [disabled]="!tablaGenerada">
+        Ver Indicadores
+      </button>
+
+      <button class="px-5 py-3 bg-red-700 text-white rounded-xl hover:bg-red-800 w-full
+                    disabled:bg-gray-400 disabled:cursor-not-allowed" (click)="verGrafico()"
+        [disabled]="!tablaGenerada">
+        Ver Gráfico
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- TABLA DEL CRONOGRAMA -->
+  <div class="bg-white shadow-xl rounded-2xl p-8 border border-gray-200">
+
+    <!-- TÍTULO -->
+    <h2 class="flex items-center gap-3 text-xl font-bold text-gray-800 mb-6">
+      <span class="block w-1 h-7 bg-red-700 rounded"></span>
+      Tabla del Cronograma
+    </h2>
+
+    <!-- CONTENEDOR TABLA -->
+    <div class="overflow-x-auto rounded-lg border border-gray-300">
+
+      <table class="min-w-full text-sm">
+
+        <!-- ENCABEZADO -->
+        <thead class="bg-gray-800 text-white text-xs uppercase tracking-wide select-none">
+
+          <tr class="text-center">
+
+            <th class="px-4 py-3 font-semibold">N° Cuota</th>
+            <th class="px-4 py-3 font-semibold">TEA</th>
+            <th class="px-4 py-3 font-semibold">TEP</th>
+            <th class="px-4 py-3 font-semibold">PG</th>
+
+            <th class="px-4 py-3 font-semibold">Saldo Inicial</th>
+            <th class="px-4 py-3 font-semibold">Interés</th>
+            <th class="px-4 py-3 font-semibold">Amortización</th>
+            <th class="px-4 py-3 font-semibold">Cuota</th>
+
+            <th class="px-4 py-3 font-semibold">Seg. Desgrav.</th>
+            <th class="px-4 py-3 font-semibold">Seg. Riesgo</th>
+
+            <th class="px-4 py-3 font-semibold">Comisión</th>
+            <th class="px-4 py-3 font-semibold">Portes</th>
+            <th class="px-4 py-3 font-semibold">G. Adm.</th>
+
+            <th class="px-4 py-3 font-semibold">Saldo Final</th>
+            <th class="px-4 py-3 font-semibold">Flujo</th>
+
+          </tr>
+        </thead>
+
+        <!-- CUERPO DE LA TABLA -->
+        <tbody class="text-center text-gray-700">
+
+          <tr *ngFor="let c of cuotas; let i = index"
+            class="border-b border-gray-200 hover:bg-gray-100 transition-colors duration-150"
+            [ngClass]="{ 'bg-gray-50': i % 2 === 0 }">
+
+            <!-- NUMERO CUOTA -->
+            <td class="px-4 py-2 font-semibold text-gray-900">
+              {{ c.numeroCuota }}
+            </td>
+
+            <!-- TEA -->
+            <td class="px-4 py-2 font-semibold text-gray-800">
+              {{ teaOriginal | number:'1.1-1' }}%
+            </td>
+
+            <!-- TEP -->
+            <td class="px-4 py-2">
+              {{ c.tem | number:'1.5-5' }}%
+            </td>
+
+            <!-- PG -->
+            <td class="px-4 py-2 font-medium">
+              {{ c.tipoPeriodo }}
+            </td>
+
+            <!-- SALDO INICIAL -->
+            <td class="px-4 py-2 font-semibold" [ngClass]="{
+              'text-blue-700': esPositivo(c.saldoInicial),
+              'text-red-500': esNegativo(c.saldoInicial)
+            }">
+              {{ getSimbolo() }} {{ c.saldoInicial | number:'1.2-2' }}
+            </td>
+
+            <!-- INTERÉS -->
+            <td class="px-4 py-2 font-semibold" [ngClass]="{
+              'text-blue-700': esPositivo(c.interes),
+              'text-red-500': esNegativo(c.interes)
+            }">
+              {{ getSimbolo() }} {{ c.interes | number:'1.2-2' }}
+            </td>
+
+            <!-- AMORTIZACIÓN -->
+            <td class="px-4 py-2 font-semibold" [ngClass]="{
+              'text-blue-700': esPositivo(c.amortizacion),
+              'text-red-500': esNegativo(c.amortizacion)
+            }">
+              {{ getSimbolo() }} {{ c.amortizacion | number:'1.2-2' }}
+            </td>
+
+            <!-- CUOTA -->
+            <td class="px-4 py-2 font-semibold" [ngClass]="{
+              'text-blue-700': esPositivo(c.cuota),
+              'text-red-500': esNegativo(c.cuota)
+            }">
+              {{ getSimbolo() }} {{ c.cuota | number:'1.2-2' }}
+            </td>
+
+            <!-- SEGURO DESGRAVAMEN -->
+            <td class="px-4 py-2 font-semibold" [ngClass]="{
+              'text-blue-700': esPositivo(c.seguroDesgravamen),
+              'text-red-500': esNegativo(c.seguroDesgravamen)
+            }">
+              {{ getSimbolo() }} {{ c.seguroDesgravamen | number:'1.2-2' }}
+            </td>
+
+            <!-- SEGURO RIESGO -->
+            <td class="px-4 py-2 font-semibold" [ngClass]="{
+              'text-blue-700': esPositivo(c.seguroRiesgo),
+              'text-red-500': esNegativo(c.seguroRiesgo)
+            }">
+              {{ getSimbolo() }} {{ c.seguroRiesgo | number:'1.2-2' }}
+            </td>
+
+            <!-- COMISIÓN -->
+            <td class="px-4 py-2 font-semibold" [ngClass]="{
+              'text-blue-700': esPositivo(c.comision),
+              'text-red-500': esNegativo(c.comision)
+            }">
+              {{ getSimbolo() }} {{ c.comision | number:'1.2-2' }}
+            </td>
+
+            <!-- PORTES -->
+            <td class="px-4 py-2 font-semibold" [ngClass]="{
+              'text-blue-700': esPositivo(c.portes),
+              'text-red-500': esNegativo(c.portes)
+            }">
+              {{ getSimbolo() }} {{ c.portes | number:'1.2-2' }}
+            </td>
+
+            <!-- GASTOS ADMIN -->
+            <td class="px-4 py-2 font-semibold" [ngClass]="{
+              'text-blue-700': esPositivo(c.gastosAdministracion),
+              'text-red-500': esNegativo(c.gastosAdministracion)
+            }">
+              {{ getSimbolo() }} {{ c.gastosAdministracion | number:'1.2-2' }}
+            </td>
+
+            <!-- SALDO FINAL -->
+            <td class="px-4 py-2 font-bold" [ngClass]="{
+              'text-blue-700': esPositivo(c.saldoFinal),
+              'text-red-500': esNegativo(c.saldoFinal)
+            }">
+              {{ getSimbolo() }} {{ c.saldoFinal | number:'1.2-2' }}
+            </td>
+
+            <!-- FLUJO -->
+            <td class="px-4 py-2 font-bold" [ngClass]="{
+              'text-blue-700': esPositivo(c.flujo),
+              'text-red-500': esNegativo(c.flujo)
+            }">
+              {{ getSimbolo() }} {{ c.flujo | number:'1.2-2' }}
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="showTotales"
+  class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
+
+  <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-lg border border-gray-300">
+
+    <h2 class="text-2xl font-bold text-center mb-6 text-gray-900">Totales del Cronograma</h2>
+
+    <div class="space-y-4 text-gray-700 text-lg">
+
+      <div class="flex justify-between"><span>Total Intereses</span>
+        <span class="font-semibold">{{ getSimbolo() }} {{ totales?.totalIntereses | number:'1.2-2' }}</span>
+      </div>
+
+      <div class="flex justify-between"><span>Total Amortización Capital</span>
+        <span class="font-semibold">{{ getSimbolo() }} {{ totales?.totalAmortizacionCapital | number:'1.2-2' }}</span>
+      </div>
+
+      <div class="flex justify-between"><span>Total Seguro Desgravamen</span>
+        <span class="font-semibold">{{ getSimbolo() }} {{ totales?.totalSeguroDesgravamen | number:'1.2-2' }}</span>
+      </div>
+
+      <div class="flex justify-between"><span>Total Seguro Riesgo</span>
+        <span class="font-semibold">{{ getSimbolo() }} {{ totales?.totalSeguroRiesgo | number:'1.2-2' }}</span>
+      </div>
+
+      <div class="flex justify-between"><span>Total Comisión Periódica</span>
+        <span class="font-semibold">{{ getSimbolo() }} {{ totales?.totalComisionPeriodica | number:'1.2-2' }}</span>
+      </div>
+
+      <div class="flex justify-between"><span>Total Portes / Gastos Adm.</span>
+        <span class="font-semibold">{{ getSimbolo() }} {{ totales?.totalPortesGastosAdm | number:'1.2-2' }}</span>
+      </div>
+
+    </div>
+
+    <div class="flex justify-center mt-6">
+      <button class="px-8 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700"
+        (click)="cerrarTotales()">Cerrar</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- POPUP INDICADORES -->
+<div *ngIf="mostrarIndicadores"
+  class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
+
+  <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-lg border border-gray-300">
+
+    <h2 class="text-2xl font-bold text-center mb-6 text-gray-900">Indicadores del Crédito</h2>
+
+    <div class="space-y-4 text-lg text-gray-700">
+
+      <div class="flex justify-between"><span>Tasa Descuento (COK)</span>
+        <span class="font-bold">{{ indicadores?.tasaDescuento | number:'1.5-5' }}%</span>
+      </div>
+
+      <div class="flex justify-between"><span>TIR (período)</span>
+        <span class="font-bold">{{ indicadores?.tirPeriodo | number:'1.5-5' }}%</span>
+      </div>
+
+      <div class="flex justify-between"><span>TCEA</span>
+        <span class="font-bold">{{ indicadores?.tceaOperacion | number:'1.5-5' }}%</span>
+      </div>
+
+      <div class="flex justify-between"><span>VAN</span>
+        <span class="font-bold"
+          [ngClass]="{ 'text-blue-700': indicadores?.van >= 0, 'text-red-600': indicadores?.van < 0 }">
+          {{ getSimbolo() }} {{ indicadores?.van | number:'1.2-2' }}
+        </span>
+      </div>
+
+    </div>
+
+    <div class="flex justify-center mt-6">
+      <button class="px-8 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700"
+        (click)="cerrarIndicadores()">Cerrar</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- POPUP GRÁFICO -->
+<div *ngIf="mostrarGrafico"
+  class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn">
+
+  <div class="bg-white p-12 rounded-3xl shadow-2xl w-[1200px] border border-gray-300">
+
+    <h2 class="text-3xl font-bold text-center mb-6 text-gray-900">Gráfico de Amortización vs Interés</h2>
+
+    <canvas id="graficoBarras" class="w-full h-[460px]"></canvas>
+
+    <div class="flex justify-center mt-8">
+      <button class="px-8 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700"
+        (click)="cerrarGrafico()">Cerrar</button>
+    </div>
+
+  </div>
+</div>

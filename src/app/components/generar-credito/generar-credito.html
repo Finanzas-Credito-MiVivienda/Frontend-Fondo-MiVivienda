@@ -1,0 +1,481 @@
+<!-- HEADER (fijo arriba) -->
+<div class="fixed top-0 left-0 right-0 h-14 bg-red-900 z-50 flex items-center justify-center">
+  <h1 class="text-white font-extrabold text-2xl tracking-wide">MIVIVIENDA INMOBILIARIA</h1>
+</div>
+
+<!-- SIDEBAR (fijo a la izquierda) -->
+<aside
+  class="fixed top-14 left-0 bottom-0 w-32 bg-red-700 text-white z-40 flex flex-col items-center py-6 space-y-6 flex-none">
+
+  <!-- Avatar -->
+  <div class="w-full flex justify-center flex-none">
+    <button mat-icon-button [matMenuTriggerFor]="menuUsuario" aria-label="Abrir menú de usuario"
+      class="rounded-full p-0 flex items-center justify-center" style="width:60px;height:60px;">
+      <mat-icon style="font-size:44px; width:44px; height:44px; color:white;">account_circle</mat-icon>
+    </button>
+  </div>
+
+  <!-- Menu usuario -->
+  <mat-menu #menuUsuario="matMenu">
+    <button mat-menu-item (click)="irPerfil()">
+      <mat-icon>person</mat-icon>
+      <span>Perfil</span>
+    </button>
+
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Cerrar sesión</span>
+    </button>
+  </mat-menu>
+
+  <!-- 2️⃣ INMUEBLES -->
+  <a routerLink="/oferta-inmueble" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+    class="w-full flex-none h-20 flex flex-col items-center justify-center hover:bg-red-600">
+    <mat-icon class="text-white text-4xl leading-none">home</mat-icon>
+    <span class="text-xs mt-2">Inmuebles</span>
+  </a>
+
+  <!-- 3️⃣ ENTIDAD FINANCIERA -->
+  <a routerLink="/registrar-entidad-financiera" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+    class="w-full flex-none h-20 flex flex-col items-center justify-center hover:bg-red-600">
+    <mat-icon class="text-white text-4xl leading-none">account_balance</mat-icon>
+    <span class="text-xs mt-2">Entidad</span>
+  </a>
+
+  <!-- 4️⃣ CRÉDITO -->
+  <a routerLink="/generar-credito" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+    class="w-full flex-none h-20 flex flex-col items-center justify-center hover:bg-red-600">
+    <mat-icon class="text-white text-4xl leading-none">attach_money</mat-icon>
+    <span class="text-xs mt-2">Crédito</span>
+  </a>
+
+  <!-- 5️⃣ CRONOGRAMA -->
+  <a routerLink="/generar-cronograma" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+    class="w-full flex-none h-20 flex flex-col items-center justify-center hover:bg-red-600">
+    <mat-icon class="text-white text-4xl leading-none">event_note</mat-icon>
+    <span class="text-xs mt-2">Cronograma</span>
+  </a>
+
+</aside>
+
+
+<!-- MAIN CONTENT -->
+<main class="pt-16 p-6 min-h-screen bg-gray-50" style="margin-left: 160px;">
+
+  <h1 class="text-3xl font-bold text-gray-800">GENERAR CRÉDITO</h1>
+  <p class="text-gray-500 mt-1">Complete los siguientes datos para generar el crédito</p>
+
+  <!-- GRID PRINCIPAL -->
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mt-4">
+
+    <!-- COLUMNA IZQUIERDA (2 columnas) -->
+    <div class="xl:col-span-2 space-y-8">
+
+      <!-- CARD: ENTIDAD FINANCIERA -->
+      <section class="bg-white border border-gray-300 shadow-sm rounded-xl p-6 max-w-4xl">
+
+        <h2 class="flex items-center gap-2 text-xl font-semibold text-gray-700 mb-4 border-b pb-2">
+          <span class="block w-1 h-6 bg-red-700 rounded"></span>
+          Entidad Financiera
+        </h2>
+
+        <div class="mt-6 mb-10">
+          <h3 class="text-lg font-bold text-gray-800 mb-3">NOMBRE DE LA ENTIDAD</h3>
+          <input type="text" class="px-3 py-2 border rounded-md bg-gray-100 text-gray-800 text-sm w-64"
+            [value]="entidadFinancieraSeleccionada?.nombreEntidad" readonly />
+        </div>
+
+        <!-- GRID MÁS JUNTO + CARD MÁS CHICA -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+
+          <!-- GASTOS INICIALES -->
+          <div>
+            <h3 class="text-lg font-bold text-gray-800 mb-4">GASTOS INICIALES</h3>
+
+            <div class="space-y-4">
+
+              <div class="flex items-center gap-3">
+                <label class="font-medium w-40">Costes Notariales</label>
+                <div class="flex items-center px-3 py-2 border rounded-md bg-gray-100 w-44">
+                  <span class="mr-1 font-semibold">{{ getSimbolo() }}</span>
+                  <span>{{ formato3Dec(entidadFinancieraSeleccionada?.costesNotariales) }}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <label class="font-medium w-40">Costes Registrales</label>
+                <div class="flex items-center px-3 py-2 border rounded-md bg-gray-100 w-44">
+                  <span class="mr-1 font-semibold">{{ getSimbolo() }}</span>
+                  <span>{{ formato3Dec(entidadFinancieraSeleccionada?.costesRegistrales) }}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <label class="font-medium w-40">Tasación</label>
+                <div class="flex items-center px-3 py-2 border rounded-md bg-gray-100 w-44">
+                  <span class="mr-1 font-semibold">{{ getSimbolo() }}</span>
+                  <span>{{ formato3Dec(entidadFinancieraSeleccionada?.tasacion) }}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <label class="font-medium w-40">Comisión Estudio</label>
+                <div class="flex items-center px-3 py-2 border rounded-md bg-gray-100 w-44">
+                  <span class="mr-1 font-semibold">{{ getSimbolo() }}</span>
+                  <span>{{ formato3Dec(entidadFinancieraSeleccionada?.comisionEstudio) }}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <label class="font-medium w-40">Comisión Activación</label>
+                <div class="flex items-center px-3 py-2 border rounded-md bg-gray-100 w-44">
+                  <span class="mr-1 font-semibold">{{ getSimbolo() }}</span>
+                  <span>{{ formato3Dec(entidadFinancieraSeleccionada?.comisionActivacion) }}</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- GASTOS PERIÓDICOS -->
+          <div>
+            <h3 class="text-lg font-bold text-gray-800 mb-4">GASTOS PERIÓDICOS</h3>
+
+            <div class="space-y-4">
+
+              <div class="flex items-center gap-3">
+                <label class="font-medium w-40">Comisión Periódica</label>
+                <div class="flex items-center px-3 py-2 border rounded-md bg-gray-100 w-44">
+                  <span class="mr-1 font-semibold">{{ getSimbolo() }}</span>
+                  <span>{{ formato3Dec(entidadFinancieraSeleccionada?.comisionPeriodica) }}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <label class="font-medium w-40">Portes</label>
+                <div class="flex items-center px-3 py-2 border rounded-md bg-gray-100 w-44">
+                  <span class="mr-1 font-semibold">{{ getSimbolo() }}</span>
+                  <span>{{ formato3Dec(entidadFinancieraSeleccionada?.portes) }}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <label class="font-medium w-40">Gastos Administración</label>
+                <div class="flex items-center px-3 py-2 border rounded-md bg-gray-100 w-44">
+                  <span class="mr-1 font-semibold">{{ getSimbolo() }}</span>
+                  <span>{{ formato3Dec(entidadFinancieraSeleccionada?.gastosAdministracion) }}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <label class="font-medium w-40">Seg. Desgravamen (%)</label>
+                <div class="flex items-center px-3 py-2 border rounded-md bg-gray-100 w-44">
+                  <span>
+                    {{ formato3Dec(entidadFinancieraSeleccionada?.seguroDesgravamen) }}
+                    <span class="font-semibold">%</span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <label class="font-medium w-40">Seg. Riesgo (%)</label>
+                <div class="flex items-center px-3 py-2 border rounded-md bg-gray-100 w-44">
+                  <span>
+                    {{ formato3Dec(entidadFinancieraSeleccionada?.seguroRiesgo) }}
+                    <span class="font-semibold">%</span>
+                  </span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- CARD: CONFIGURACIÓN DEL CRÉDITO -->
+      <section class="bg-gray-200 rounded-xl p-6 shadow-[0_8px_20px_rgba(0,0,0,0.25)] text-gray-800 max-w-4xl">
+
+
+        <h2 class="flex items-center gap-2 text-xl font-semibold text-gray-700 mb-4 border-b pb-2">
+          <span class="block w-1 h-6 bg-red-700 rounded"></span>
+          Configuración del Crédito
+        </h2>
+
+        <!-- GRID MÁS JUNTO Y CARD REDUCIDA -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+
+          <!-- IZQUIERDA -->
+          <div class="space-y-4">
+
+            <div>
+              <label class="font-medium">Tipo Tasa de Interés</label>
+              <select class="w-full px-3 py-2 border rounded-lg bg-white" [(ngModel)]="tipoTasaInteres">
+                <option value="" disabled selected>Seleccionar</option>
+                <option value="NOMINAL">Nominal</option>
+                <option value="EFECTIVA">Efectiva</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="font-medium">Tasa de Interés (%)</label>
+              <div class="relative">
+                <input type="text" class="w-full px-3 pr-10 py-2 border rounded-lg bg-white text-right"
+                  [(ngModel)]="tasaInteres" (input)="validarNumero($event)" (blur)="formatearTresDec($event)" />
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 font-semibold text-gray-700">%</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="font-medium">Frecuencia de Pago</label>
+              <select class="w-full px-3 py-2 border rounded-lg bg-white" [(ngModel)]="frecuenciaPago">
+                <option value="" disabled selected>Seleccionar</option>
+                <option value="MENSUAL">Mensual</option>
+                <option value="BIMESTRAL">Bimestral</option>
+                <option value="TRIMESTRAL">Trimestral</option>
+                <option value="SEMESTRAL">Semestral</option>
+                <option value="ANUAL">Anual</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="font-medium">Fecha Registro</label>
+              <input type="date" class="w-full rounded-lg px-3 py-2 bg-gray-200 border" [value]="fechaHoy" readonly />
+            </div>
+
+            <div>
+              <label class="font-medium">Días por año</label>
+              <input type="number" value="360" readonly class="w-full px-3 py-2 border bg-gray-200 rounded-lg" />
+            </div>
+
+          </div>
+
+          <!-- DERECHA -->
+          <div class="space-y-4">
+
+            <div>
+              <label class="font-medium">Tipo Periodo Gracia</label>
+
+              <div class="flex items-center gap-2">
+
+                <select class="w-full px-3 py-2 border rounded-lg bg-white" [(ngModel)]="tipoPeriodoGracia"
+                  (change)="onChangeTipoPeriodo()" [disabled]="estadoConstruido">
+                  <option value="" disabled selected>Seleccionar</option>
+                  <option value="NINGUNO">Sin periodo de gracia</option>
+                  <option value="GRACIA_TOTAL">Total</option>
+                  <option value="GRACIA_PARCIAL">Parcial</option>
+                </select>
+
+                <!-- Tooltip si está construido -->
+                <div *ngIf="estadoConstruido" class="relative cursor-help group">
+                  <mat-icon class="text-gray-700 text-[20px] leading-none">info</mat-icon>
+
+                  <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-64
+               bg-red-100 border border-red-300 text-red-700 text-sm
+               px-3 py-2 rounded-lg shadow-lg hidden group-hover:block z-50">
+                    Este inmueble ya está construido, por lo que no aplica periodo de gracia.
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+
+            <!-- PERIODO DE GRACIA -->
+            <div>
+              <label class="font-medium">Periodo de Gracia</label>
+
+              <div class="flex items-center gap-2">
+
+                <!-- INPUT -->
+                <input type="text" class="w-full px-3 py-2 border rounded-lg bg-white
+         disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed" [(ngModel)]="periodoGracia"
+                  (input)="soloEnterosPositivos($event)" [disabled]="esPeriodoBloqueado()" />
+
+
+                <!-- ÍCONO AFUERA COMO EL OTRO TOOLTIP -->
+                <div *ngIf="tipoPeriodoGracia === 'NINGUNO' && !estadoConstruido" class="relative cursor-help group">
+                  <mat-icon class="text-gray-700 text-[18px] leading-none">info</mat-icon>
+
+                  <!-- TOOLTIP -->
+                  <div class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-64
+               bg-yellow-100 border border-yellow-300 text-yellow-700
+               text-sm px-3 py-2 rounded-lg shadow-lg 
+               hidden group-hover:block z-50">
+                    El periodo de gracia no aplica cuando selecciona “NINGUNO”.
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div>
+              <label class="font-medium">Número de Años</label>
+              <input type="text" class="w-full px-3 py-2 border rounded-lg bg-white" [(ngModel)]="numeroAnios"
+                (input)="soloEnterosPositivos($event)" />
+            </div>
+
+            <div>
+              <label class="font-medium">COK (%)</label>
+              <div class="relative">
+                <input type="text" class="w-full px-3 pr-10 py-2 border rounded-lg bg-white text-right"
+                  [(ngModel)]="cok" (input)="validarNumero($event)" (blur)="formatearTresDec($event)" />
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 font-semibold text-gray-700">%</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="font-medium">% Cuota Inicial</label>
+              <div class="relative">
+                <input type="text" class="w-full px-3 pr-10 py-2 border rounded-lg bg-white text-right"
+                  [(ngModel)]="pCuotaInicial" (input)="validarNumero($event)" (blur)="formatearTresDec($event)" />
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 font-semibold text-gray-700">%</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="flex justify-end mt-6">
+          <button class="px-6 py-3 bg-blue-700 text-white rounded-xl hover:bg-blue-800" (click)="calcularCredito()">
+            Calcular
+          </button>
+        </div>
+
+      </section>
+
+
+    </div>
+
+    <!-- RESULTADOS + BOTONES CENTRADOS -->
+    <div class="xl:col-span-1 flex flex-col items-center xl:-ml-50">
+
+
+      <!-- CARD RESULTADOS -->
+      <section class="bg-white border border-gray-300 rounded-xl p-6 shadow-lg w-full max-w-md">
+
+        <h2 class="flex items-center gap-2 text-xl font-semibold text-gray-700 mb-4 border-b pb-2">
+          <span class="block w-1 h-6 bg-red-700 rounded"></span>
+          Resultados del Crédito
+        </h2>
+
+        <div *ngIf="resultados; else noResultados">
+
+          <div class="space-y-4">
+
+            <!-- MONTO PRESTAMO -->
+            <div class="flex justify-between items-center border-b pb-2">
+              <div class="flex items-center gap-2 text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.657 0 3-.895 3-2s-1.343-2-3-2-3 .895-3 2 1.343 2 3 2z" />
+                </svg>
+                <span class="font-medium">Monto Préstamo</span>
+              </div>
+              <span class="font-semibold text-gray-900">{{ resultados.montoPrestamo | number:'1.2-2' }}</span>
+            </div>
+
+            <!-- SALDO FINANCIAR -->
+            <div class="flex justify-between items-center border-b pb-2">
+              <div class="flex items-center gap-2 text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.657 0 3-.895 3-2s-1.343-2-3-2-3 .895-3 2 1.343 2 3 2z" />
+                </svg>
+                <span class="font-medium">Saldo a Financiar</span>
+              </div>
+              <span class="font-semibold text-gray-900">{{ resultados.saldoFinanciar | number:'1.2-2' }}</span>
+            </div>
+
+            <!-- TASA FINAL -->
+            <div class="flex justify-between items-center border-b pb-2">
+              <div class="flex items-center gap-2 text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m6-6l3 3-3 3" />
+                </svg>
+                <span class="font-medium">Tasa Final (TEM)</span>
+              </div>
+              <span class="font-semibold text-blue-700">{{ resultados.tasaInteres | number:'1.5-5' }}%</span>
+            </div>
+
+            <!-- BONO BUEN PAGADOR -->
+            <div class="flex justify-between items-center border-b pb-2">
+              <div class="flex items-center gap-2 text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-600" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8V4m0 0L8 8m4-4l4 4m0 12v-4m0 4l-4-4m4 4l4-4M4 12H8m0 0L4 8m4 4l-4 4" />
+                </svg>
+                <span class="font-medium">Bono Buen Pagador</span>
+              </div>
+              <span class="font-semibold text-green-700">{{ resultados.bonoBuenPagador | number:'1.2-2' }}</span>
+            </div>
+
+            <!-- CUOTAS POR AÑO -->
+            <div class="flex justify-between items-center border-b pb-2">
+              <div class="flex items-center gap-2 text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2v-5H3v5a2 2 0 002 2z" />
+                </svg>
+                <span class="font-medium">Cuotas por Año</span>
+              </div>
+              <span class="font-semibold text-gray-900">{{ resultados.ncuotasxAnio }}</span>
+            </div>
+
+            <!-- TOTAL CUOTAS -->
+            <div class="flex justify-between items-center border-b pb-2">
+              <div class="flex items-center gap-2 text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2v-5H3v5a2 2 0 002 2z" />
+                </svg>
+                <span class="font-medium">Total Cuotas</span>
+              </div>
+              <span class="font-semibold text-gray-900">{{ resultados.ntotalCuotas }}</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <ng-template #noResultados>
+          <p class="text-gray-500 text-sm">Aún no se han calculado los resultados.</p>
+        </ng-template>
+
+      </section>
+
+      <!-- BOTONES DEBAJO DE LA CARD -->
+      <div class="flex justify-center mt-6 gap-4 w-full">
+
+        <button class="px-6 py-3 bg-gray-300 rounded-xl hover:bg-gray-400" (click)="cancelar()">
+          Cancelar
+        </button>
+
+        <button class="px-6 py-3 bg-green-700 text-white rounded-xl hover:bg-green-800" (click)="guardarCredito()">
+          Guardar Crédito
+        </button>
+
+        <div (click)="intentadoVerCronograma()" class="inline-block">
+          <button routerLink="/generar-cronograma" [disabled]="!creditoGuardado"
+            class="px-6 py-3 rounded-xl text-white transition" [ngClass]="creditoGuardado 
+              ? 'bg-red-900 hover:bg-red-700 cursor-pointer' 
+              : 'bg-gray-400 cursor-not-allowed'">
+            Ver Cronograma
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</main>

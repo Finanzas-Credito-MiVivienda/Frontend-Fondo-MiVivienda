@@ -1,0 +1,162 @@
+<!-- HEADER (fijo arriba) -->
+<div class="fixed top-0 left-0 right-0 h-14 bg-red-900 z-50 flex items-center justify-center">
+    <h1 class="text-white font-extrabold text-2xl tracking-wide">MIVIVIENDA INMOBILIARIA</h1>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="fixed top-14 left-0 bottom-0 w-32 bg-red-700 text-white z-40 flex flex-col items-center py-6 space-y-6">
+
+    <!-- avatar -->
+    <div class="w-full flex justify-center flex-none">
+        <button mat-icon-button [matMenuTriggerFor]="menuUsuario" aria-label="Abrir menú de usuario"
+            class="rounded-full p-0 flex items-center justify-center focus:outline-none focus:ring-0 active:outline-none"
+            style="width:60px;height:60px; box-shadow: none; border: none;">
+
+            <mat-icon style="font-size:44px; width:44px; height:44px; color:white;">
+                account_circle
+            </mat-icon>
+        </button>
+    </div>
+
+    <!-- menu -->
+    <mat-menu #menuUsuario="matMenu">
+        <button mat-menu-item (click)="irPerfil()"><mat-icon>person</mat-icon><span>Perfil</span></button>
+        <button mat-menu-item (click)="logout()"><mat-icon>logout</mat-icon><span>Cerrar sesión</span></button>
+    </mat-menu>
+
+
+    <!-- 1️⃣ INMUEBLES -->
+    <a routerLink="/oferta-inmueble" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+        class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+
+        <mat-icon class="text-white text-4xl leading-none">home</mat-icon>
+        <span class="text-xs mt-1">Inmuebles</span>
+    </a>
+
+
+    <!-- 2️⃣ ENTIDAD FINANCIERA -->
+    <a routerLink="/registrar-entidad-financiera" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+        class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+
+        <mat-icon class="text-white text-4xl leading-none">account_balance</mat-icon>
+        <span class="text-xs mt-1">Entidad</span>
+    </a>
+
+
+    <!-- 3️⃣ CRÉDITO -->
+    <a routerLink="/generar-credito" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+        class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+
+        <mat-icon class="text-white text-4xl leading-none">attach_money</mat-icon>
+        <span class="text-xs mt-1">Crédito</span>
+    </a>
+
+
+    <!-- 4️⃣ CRONOGRAMA (PLANES) -->
+    <a routerLink="/generar-cronograma" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+        class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+
+        <mat-icon class="text-white text-4xl leading-none">event_note</mat-icon>
+        <span class="text-xs mt-1">Cronograma</span>
+    </a>
+
+</aside>
+
+
+<!-- CONTENIDO PRINCIPAL (se desplaza por la izquierda con ml-32; debajo del header con mt-14) -->
+<main class="ml-32 mt-14 pt-6 pb-8 min-h-screen bg-[#f6f5fa]">
+
+    <!-- FILTROS: rectángulo que se ajusta al contenido (no se expande de más) -->
+    <div class="w-full px-6 flex justify-start items-center gap-6 mt-2">
+        <!-- TÍTULO -->
+        <h1 class="text-2xl font-bold text-gray-800 whitespace-nowrap ml-40">
+            OFERTAS INMUEBLES
+        </h1>
+
+        <div class="bg-white rounded-xl shadow-sm p-3 flex items-center gap-4">
+            <input type="text" placeholder="Buscar departamento o distrito..."
+                class="border rounded-lg px-4 py-2 w-[300px] min-w-[220px]" [(ngModel)]="filtroTexto"
+                (input)="aplicarFiltros()" />
+
+
+            <select class="border rounded-lg px-3 py-2 w-[185px]" [(ngModel)]="filtroTipo" (change)="aplicarFiltros()">
+                <option value="">Tipo de vivienda</option>
+                <option value="SOSTENIBLE">Sostenible</option>
+                <option value="TRADICIONAL">Tradicional</option>
+                <option value="INTEGRADOR_TRADICIONAL">Integrador tradicional</option>
+                <option value="INTEGRADOR_SOSTENIBLE">Integrador sostenible</option>
+            </select>
+
+
+            <select class="border rounded-lg px-3 py-2 w-[175px]" [(ngModel)]="filtroEstado"
+                (change)="aplicarFiltros()">
+                <option value="">Estado</option>
+                <option value="CONSTRUIDO">Construido</option>
+                <option value="EN_CONSTRUCCION">En construcción</option>
+                <option value="TERRENO">Terreno unidades</option>
+            </select>
+
+
+            <select class="border rounded-lg px-3 py-2 w-[170px]" [(ngModel)]="filtroPrecio"
+                (change)="aplicarFiltros()">
+                <option value="">Precio</option>
+                <option value="150000">Hasta S/ 150,000</option>
+                <option value="300000">Hasta S/ 300,000</option>
+                <option value="500000">Hasta S/ 500,000</option>
+                <option value="500001">Más de S/ 500,000</option>
+            </select>
+
+
+            <select class="border rounded-lg px-3 py-2 w-[140px]" [(ngModel)]="filtroArea" (change)="aplicarFiltros()">
+                <option value="">Área mínima</option>
+                <option value="40">Desde 40 m²</option>
+                <option value="60">Desde 60 m²</option>
+                <option value="80">Desde 80 m²</option>
+                <option value="100">Desde 100 m²</option>
+            </select>
+
+
+        </div>
+    </div>
+
+    <!-- GRID DE INMUEBLES: 'cuadros' responsivos (1/2/3 columnas) -->
+    <div class="px-6 mt-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- tarjeta: repite con *ngFor -->
+            <div *ngFor="let item of inmuebles"
+                class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-200 flex flex-col">
+                <!-- imagen superior (cubre todo ancho) -->
+                <div class="w-full h-44 overflow-hidden">
+                    <img [src]="item.imageUrl" alt="imagen" class="w-full h-full object-cover" />
+                </div>
+
+                <!-- contenido -->
+                <div class="p-4 flex-1 flex flex-col">
+                    <div class="text-[#008a4d] font-semibold text-lg">S/ {{ item.precioVenta | number }}</div>
+                    <div class="text-gray-700 font-medium mt-2 text-sm">{{ item.direccion }} – {{ item.distrito }}</div>
+                    <div class="text-gray-500 text-xs mt-1">{{ item.areaM2 }} m² · {{ item.departamento }} · {{
+                        item.provincia }}</div>
+
+                    <p class="text-gray-600 text-sm mt-3">Tipo: {{ item.tipoVivienda | titlecase }}</p>
+
+                    <!-- pie: estado y botón alineados al fondo -->
+                    <div class="mt-auto flex items-center justify-between pt-4">
+                        <span class="text-xs font-semibold px-2 py-1 rounded bg-black/70 text-white">{{
+                            item.estadoVivienda }}</span>
+                        <button (click)="financiar(item)"
+                            class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                            Financiar
+                        </button>
+                        <!-- <button (click)="financiar(item)" [disabled]="!puedeFinanciar(item)" class="px-4 py-2 rounded-lg text-white
+              transition 
+              bg-green-600 hover:bg-green-700
+              disabled:bg-gray-400 disabled:cursor-not-allowed">
+                            Financiar
+                        </button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

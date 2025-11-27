@@ -1,86 +1,270 @@
-<div class="bg-[#7a0000] text-white p-4 flex items-center justify-between">
-  <div class="flex items-center gap-2">
-    <img src="logo-mivivienda.png" alt="Mivivienda" class="h-8" />
-    <h1 class="font-bold text-xl">MIVIVIENDA INMOBILIARIA</h1>
-  </div>
+<!-- HEADER (fijo arriba) -->
+<div class="fixed top-0 left-0 right-0 h-14 bg-red-900 z-50 flex items-center justify-center">
+  <h1 class="text-white font-extrabold text-2xl tracking-wide">MIVIVIENDA INMOBILIARIA</h1>
 </div>
 
-<div class="flex min-h-screen bg-gray-100">
+<!-- SIDEBAR (fijo a la izquierda) -->
+<aside
+  class="fixed top-14 left-0 bottom-0 w-32 bg-red-700 text-white z-40 flex flex-col items-center py-6 space-y-6 flex-none">
 
-  <aside class="w-20 bg-[#7a0000] flex flex-col items-center py-6 text-white space-y-6">
-    <button class="hover:text-yellow-400"><i class="fas fa-user text-2xl"></i></button>
-    <button class="hover:text-yellow-400"><i class="fas fa-building text-2xl"></i></button>
-    <button class="hover:text-yellow-400"><i class="fas fa-cog text-2xl"></i></button>
-    <button class="hover:text-yellow-400"><i class="fas fa-list-alt text-2xl"></i></button>
-  </aside>
+  <!-- avatar (botón) -->
+  <div class="w-full flex justify-center flex-none">
+    <button mat-icon-button [matMenuTriggerFor]="menuUsuario" aria-label="Abrir menú de usuario"
+      class="rounded-full p-0 flex items-center justify-center" style="width:60px;height:60px;">
+      <mat-icon style="font-size:44px; width:44px; height:44px; color:white; line-height:0.9;">account_circle</mat-icon>
+    </button>
+  </div>
 
+  <!-- menú usuario -->
+  <mat-menu #menuUsuario="matMenu">
+    <button mat-menu-item (click)="irPerfil()">
+      <mat-icon>person</mat-icon><span>Perfil</span>
+    </button>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon><span>Cerrar sesión</span>
+    </button>
+  </mat-menu>
+
+  <!-- 1️⃣ INMUEBLES -->
+  <a routerLink="/oferta-inmueble" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+    class="w-full flex-none h-20 flex flex-col items-center justify-center hover:bg-red-600">
+
+    <mat-icon class="text-white text-4xl leading-none">home</mat-icon>
+    <span class="text-xs mt-2">Inmuebles</span>
+  </a>
+
+  <!-- 2️⃣ ENTIDAD FINANCIERA -->
+  <a routerLink="/registrar-entidad-financiera" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+    class="w-full flex-none h-20 flex flex-col items-center justify-center hover:bg-red-600">
+
+    <mat-icon class="text-white text-4xl leading-none">account_balance</mat-icon>
+    <span class="text-xs mt-2">Entidad</span>
+  </a>
+
+  <!-- 3️⃣ CRÉDITO -->
+  <a routerLink="/generar-credito" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+    class="w-full flex-none h-20 flex flex-col items-center justify-center hover:bg-red-600">
+
+    <mat-icon class="text-white text-4xl leading-none">attach_money</mat-icon>
+    <span class="text-xs mt-2">Crédito</span>
+  </a>
+
+  <!-- 4️⃣ CRONOGRAMA -->
+  <a routerLink="/generar-cronograma" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+    class="w-full flex-none h-20 flex flex-col items-center justify-center hover:bg-red-600">
+
+    <mat-icon class="text-white text-4xl leading-none">event_note</mat-icon>
+    <span class="text-xs mt-2">Cronograma</span>
+  </a>
+
+</aside>
+
+<!-- CONTENIDO PRINCIPAL -->
+<div class="flex min-h-screen bg-gray-100 pt-6 pl-40 pr-6">
 
   <main class="flex-1 p-8">
-    <button class="mb-4 text-gray-600 hover:text-black">
+
+    <button class="mb-4 text-gray-600 hover:text-black" (click)="cancelar()">
       <i class="fas fa-arrow-left"></i>
     </button>
 
-    <h2 class="text-center text-2xl font-semibold mb-6">Registrar Entidad Financiera</h2>
+    <!-- TÍTULO GENERAL -->
+    <h2 class="text-center text-3xl font-bold mb-8 mt-2">
+      Registrar Entidad Financiera
+    </h2>
 
-    <div class="bg-white rounded-2xl shadow-md p-6 grid grid-cols-2 gap-6 max-w-4xl mx-auto">
+    <!-- CARD GENERAL -->
+    <div class="bg-white rounded-3xl shadow-xl p-10 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
 
-      <div class="flex flex-col items-center">
-        <img src="icon-bank.png" alt="Entidad" class="w-32 h-32 bg-gray-200 rounded-xl mb-4 p-4" />
-        <label class="block font-semibold mb-2">Entidad financiera:</label>
-        <select class="border rounded-lg px-3 py-2 w-64">
+      <!-- PRIMERA COLUMNA ACTUALIZADA -->
+      <div class="flex flex-col items-center justify-center">
+
+        <!-- LOGO -->
+        <img [src]="logoSeleccionado" alt="Entidad" class="w-32 h-32 bg-gray-200 rounded-xl mb-6 p-4" />
+
+        <!-- TÍTULO ENTIDAD -->
+        <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center">
+          <span class="w-1 h-6 bg-red-700 mr-2 inline-block"></span>
+          Entidad Financiera:
+        </h3>
+
+        <!-- SELECT ENTIDAD (tamaño igual a otros inputs) -->
+        <select class="border rounded-lg px-3 py-2 w-45 text-center" [(ngModel)]="entidadSeleccionada"
+          (change)="cambiarLogo()">
           <option value="">Seleccionar</option>
-          <option>BBVA</option>
-          <option>Interbank</option>
-          <option>BCP</option>
+          <option value="bcp">BCP</option>
+          <option value="interbank">Interbank</option>
+          <option value="bbva">BBVA</option>
+          <option value="scotiabank">Scotiabank</option>
+          <option value="banbif">BanBif</option>
         </select>
+
+        <h3 class="text-lg font-bold text-gray-800 mt-8 mb-2 flex items-center">
+          <span class="w-1 h-6 bg-red-700 mr-2 inline-block"></span>
+          Tasa (TEA %)
+        </h3>
+
+        <div class="relative w-45">
+          <input type="text" (input)="validarNumero($event)" (blur)="formatearTresDecimales($event)"
+            [(ngModel)]="entidad.tea" class="border rounded-lg pl-3 pr-8 py-2 w-full text-right" />
+          <span class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 font-semibold">%</span>
+        </div>
+
       </div>
 
+
+      <!-- COLUMNA DERECHA -->
       <div>
-        <h3 class="font-semibold text-gray-700 mb-2">Detalle de importes:</h3>
-        <div class="space-y-2 mb-4">
-          <div class="flex justify-between">
-            <label>TEA:</label>
-            <input type="text" value="0%" class="border rounded px-2 py-1 w-32 text-right" />
+
+        <h3 class="text-lg font-bold text-gray-800 mb-3 pl-3 border-l-4 border-red-700">
+          Gastos Iniciales
+        </h3>
+
+        <div class="space-y-3 mb-6">
+          <div class="flex justify-between items-center">
+            <label>Costes Notariales:</label>
+            <div class="relative w-32">
+              <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600 font-semibold">{{ getSimbolo()
+                }}</span>
+              <input type="text" (input)="validarNumero($event)" (blur)="formatearTresDecimales($event)"
+                [(ngModel)]="entidad.costesNotariales" class="border rounded-lg pl-7 pr-2 py-1 w-full text-right" />
+            </div>
           </div>
-          <div class="flex justify-between">
-            <label>Seguro Desgravamen:</label>
-            <input type="text" value="0%" class="border rounded px-2 py-1 w-32 text-right" />
+
+          <div class="flex justify-between items-center">
+            <label>Costes Registrales:</label>
+            <div class="relative w-32">
+              <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600 font-semibold">{{ getSimbolo()
+                }}</span>
+              <input type="text" (input)="validarNumero($event)" (blur)="formatearTresDecimales($event)"
+                [(ngModel)]="entidad.costesRegistrales" class="border rounded-lg pl-7 pr-2 py-1 w-full text-right" />
+
+            </div>
           </div>
-          <div class="flex justify-between">
-            <label>Seguro Riesgo:</label>
-            <input type="text" value="0%" class="border rounded px-2 py-1 w-32 text-right" />
+
+          <div class="flex justify-between items-center">
+            <label>Tasación:</label>
+            <div class="relative w-32">
+              <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600 font-semibold">{{ getSimbolo()
+                }}</span>
+              <input type="text" (input)="validarNumero($event)" (blur)="formatearTresDecimales($event)"
+                [(ngModel)]="entidad.tasacion" class="border rounded-lg pl-7 pr-2 py-1 w-full text-right" />
+
+            </div>
           </div>
+
+          <div class="flex justify-between items-center">
+            <label>Comisión de Estudio:</label>
+            <div class="relative w-32">
+              <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600 font-semibold">{{ getSimbolo()
+                }}</span>
+              <input type="text" (input)="validarNumero($event)" (blur)="formatearTresDecimales($event)"
+                [(ngModel)]="entidad.comisionEstudio" class="border rounded-lg pl-7 pr-2 py-1 w-full text-right" />
+
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <label>Comisión de Activación:</label>
+            <div class="relative w-32">
+              <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600 font-semibold">{{ getSimbolo()
+                }}</span>
+              <input type="text" (input)="validarNumero($event)" (blur)="formatearTresDecimales($event)"
+                [(ngModel)]="entidad.comisionActivacion" class="border rounded-lg pl-7 pr-2 py-1 w-full text-right" />
+
+            </div>
+          </div>
+
         </div>
 
-        <h3 class="font-semibold text-gray-700 mb-2">Costos iniciales:</h3>
-        <div class="space-y-2 mb-4">
-          <div class="flex justify-between">
-            <label>Gastos Administrativos:</label>
-            <input type="text" value="S/.00.00" class="border rounded px-2 py-1 w-32 text-right" />
-          </div>
-          <div class="flex justify-between">
-            <label>Fotocopias:</label>
-            <input type="text" value="S/.00.00" class="border rounded px-2 py-1 w-32 text-right" />
-          </div>
-        </div>
+        <h3 class="text-lg font-bold text-gray-800 mb-3 pl-3 border-l-4 border-red-700">
+          Gastos Periódicos
+        </h3>
 
-        <h3 class="font-semibold text-gray-700 mb-2">Costos finales:</h3>
-        <div class="space-y-2">
-          <div class="flex justify-between">
+        <div class="space-y-3">
+          <div class="flex justify-between items-center">
+            <label>Comisión Periódica:</label>
+            <div class="relative w-32">
+              <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600 font-semibold">{{ getSimbolo()
+                }}</span>
+              <input type="text" (input)="validarNumero($event)" (blur)="formatearTresDecimales($event)"
+                [(ngModel)]="entidad.comisionPeriodica" class="border rounded-lg pl-7 pr-2 py-1 w-full text-right" />
+
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center">
             <label>Portes:</label>
-            <input type="text" value="S/.00.00" class="border rounded px-2 py-1 w-32 text-right" />
+            <div class="relative w-32">
+              <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600 font-semibold">{{ getSimbolo()
+                }}</span>
+              <input type="text" (input)="validarNumero($event)" (blur)="formatearTresDecimales($event)"
+                [(ngModel)]="entidad.portes" class="border rounded-lg pl-7 pr-2 py-1 w-full text-right" />
+
+            </div>
           </div>
-          <div class="flex justify-between">
-            <label>Otros:</label>
-            <input type="text" value="S/.00.00" class="border rounded px-2 py-1 w-32 text-right" />
+
+          <div class="flex justify-between items-center">
+            <label>Gastos Administrativos:</label>
+            <div class="relative w-32">
+              <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600 font-semibold">{{ getSimbolo()
+                }}</span>
+              <input type="text" (input)="validarNumero($event)" (blur)="formatearTresDecimales($event)"
+                [(ngModel)]="entidad.gastosAdministracion" class="border rounded-lg pl-7 pr-2 py-1 w-full text-right" />
+
+            </div>
           </div>
+
+          <div class="flex justify-between items-center">
+            <label>Seguro Desgravamen (%):</label>
+            <div class="relative w-32">
+              <input type="text" (input)="validarNumero($event)" (blur)="formatearTresDecimales($event)"
+                [(ngModel)]="entidad.seguroDesgravamen" class="border rounded-lg pl-7 pr-7 py-1 w-full text-right" />
+
+              <span class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 font-semibold">
+                %
+              </span>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <label>Seguro Riesgo (%):</label>
+            <div class="relative w-32">
+              <input type="text" (input)="validarNumero($event)" (blur)="formatearTresDecimales($event)"
+                [(ngModel)]="entidad.seguroRiesgo" class="border rounded-lg pl-7 pr-7 py-1 w-full text-right" />
+
+              <span class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 font-semibold">
+                %
+              </span>
+            </div>
+          </div>
+
         </div>
+
       </div>
     </div>
 
+    <!-- BOTONES -->
     <div class="flex justify-center gap-6 mt-6">
-      <button class="bg-gray-200 px-6 py-2 rounded-full font-semibold hover:bg-gray-300">Cancelar</button>
-      <button class="bg-gray-800 text-white px-6 py-2 rounded-full font-semibold hover:bg-gray-900">Guardar</button>
+
+      <button class="bg-gray-300 px-6 py-2 rounded-xl hover:bg-gray-400" (click)="cancelar()">
+        Cancelar
+      </button>
+
+      <button class="bg-gray-800 text-white px-6 py-2 rounded-full font-semibold hover:bg-gray-900"
+        (click)="guardarEntidad()">
+        Guardar
+      </button>
+
+      <button routerLink="/generar-credito" [disabled]="!botonCreditoHabilitado" class="px-6 py-2 rounded-full font-semibold 
+         text-white
+         transition
+         bg-red-700 hover:bg-red-800
+         disabled:bg-gray-400 disabled:cursor-not-allowed">
+        Generar Crédito
+      </button>
+
     </div>
+
   </main>
 </div>
