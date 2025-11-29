@@ -57,6 +57,13 @@
     <span class="text-xs mt-2">Cronograma</span>
   </a>
 
+  <!-- NUEVO: FAQ -->
+  <a routerLink="/preguntas-frecuentes" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+    class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+    <mat-icon class="text-white text-4xl">help_outline</mat-icon>
+    <span class="text-xs mt-1">FAQ</span>
+  </a>
+
 </aside>
 
 <!-- CONTENIDO PRINCIPAL -->
@@ -92,12 +99,14 @@
         <select class="border rounded-lg px-3 py-2 w-45 text-center" [(ngModel)]="entidadSeleccionada"
           (change)="cambiarLogo()">
           <option value="">Seleccionar</option>
-          <option value="bcp">BCP</option>
-          <option value="interbank">Interbank</option>
-          <option value="bbva">BBVA</option>
-          <option value="scotiabank">Scotiabank</option>
-          <option value="banbif">BanBif</option>
+          <option value="bcp" [disabled]="!puedeElegirBanco('bcp')">BCP</option>
+          <option value="interbank" [disabled]="!puedeElegirBanco('interbank')">Interbank</option>
+          <option value="bbva" [disabled]="!puedeElegirBanco('bbva')">BBVA</option>
+          <option value="scotiabank" [disabled]="!puedeElegirBanco('scotiabank')">Scotiabank</option>
+          <option value="banbif" [disabled]="!puedeElegirBanco('banbif')">BanBif</option>
         </select>
+
+
 
         <h3 class="text-lg font-bold text-gray-800 mt-8 mb-2 flex items-center">
           <span class="w-1 h-6 bg-red-700 mr-2 inline-block"></span>
@@ -267,4 +276,84 @@
     </div>
 
   </main>
+</div>
+
+<!-- BOTÓN FLOTANTE DEL ASISTENTE -->
+<button class="fixed bottom-6 right-6 bg-red-700 text-white w-14 h-14 rounded-full shadow-xl 
+hover:bg-red-800 flex items-center justify-center z-10" (click)="toggleAsistente()">
+  <mat-icon>support_agent</mat-icon>
+</button>
+
+<!-- POPUP ASISTENTE -->
+<div *ngIf="mostrarAsistente" class="fixed bottom-28 right-6 bg-white shadow-2xl w-96 rounded-2xl border p-5 z-50">
+
+  <!-- Título -->
+  <div class="flex justify-between items-center mb-3">
+    <h3 class="font-bold text-xl text-red-700 flex items-center gap-2">
+      <mat-icon>support_agent</mat-icon> Asistente Técnico
+    </h3>
+    <button (click)="toggleAsistente()" class="text-gray-500 hover:text-black text-lg">✕</button>
+  </div>
+
+  <p class="text-sm text-gray-700 mb-4">
+    Te ayudaré a completar correctamente el registro de tu entidad financiera:
+  </p>
+
+  <div class="space-y-4 text-sm">
+
+    <!-- Selección de banco -->
+    <div>
+      <p class="font-bold text-gray-800">🏦 Seleccionar Entidad Financiera</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>Elige el banco donde solicitarás el crédito.</li>
+        <li>Cada entidad tiene requisitos de ingreso mínimo.</li>
+        <li>Una vez seleccionado, se mostrará su logo automáticamente.</li>
+      </ul>
+    </div>
+
+    <!-- Tasa -->
+    <div>
+      <p class="font-bold text-gray-800">📈 Tasa TEA (%)</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>Ingresa la tasa anual efectiva de su preferencia.</li>
+        <li>Solo se permiten números y hasta 3 decimales.</li>
+        <li>No ingreses símbolos ni valores negativos.</li>
+      </ul>
+    </div>
+
+    <!-- Gastos iniciales -->
+    <div>
+      <p class="font-bold text-gray-800">💵 Gastos Iniciales</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>Incluyen notarial, registral, tasación y comisiones.</li>
+        <li>Se aplican una sola vez al inicio del crédito.</li>
+        <li>Puedes ingresar los valores que necesites para tu simulación.</li>
+      </ul>
+    </div>
+
+    <!-- Gastos periódicos -->
+    <div>
+      <p class="font-bold text-gray-800">🔄 Gastos Periódicos</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>Incluyen comisión periódica, portes y gastos administrativos.</li>
+        <li>Se suman normalmente a cada cuota del cronograma.</li>
+        <li>Seguro de desgravamen y seguro de riesgo deben ingresarse en %.</li>
+      </ul>
+    </div>
+
+    <!-- Recomendaciones finales -->
+    <div>
+      <p class="font-bold text-gray-800">📌 Antes de generar el crédito</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>Revisa que los valores ingresados tengan el formato correcto.</li>
+        <li>Recuerda que estos datos afectan el cálculo del crédito.</li>
+        <li>Después de guardar, podrás generar tu crédito.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <button class="w-full mt-5 bg-red-700 text-white py-2 rounded-xl hover:bg-red-800" (click)="toggleAsistente()">
+    Entendido
+  </button>
 </div>

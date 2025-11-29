@@ -15,4 +15,8 @@ export class Inmuebles {
   getInmuebles(): Observable<Inmueble[]> {
     return this.http.get<Inmueble[]>(this.ruta_servidor + "/" + this.recurso);
   }
+
+  editInmueble(inmueble: Inmueble) {
+    return this.http.put<Inmueble>(this.ruta_servidor + "/" + this.recurso + "/" + inmueble.id.toString(), inmueble);
+  }
 }

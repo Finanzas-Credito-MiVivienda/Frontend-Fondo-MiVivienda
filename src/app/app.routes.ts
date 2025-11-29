@@ -5,6 +5,7 @@ import { OfertaInmueble } from './components/oferta-inmueble/oferta-inmueble';
 import { GenerarCredito } from './components/generar-credito/generar-credito';
 import { GenerarCronograma } from './components/generar-cronograma/generar-cronograma';
 import { AgregarEntidadFinanciera } from './components/agregar-entidad-financiera/agregar-entidad-financiera';
+import { PreguntasFrecuentes } from './components/preguntas-frecuentes/preguntas-frecuentes';
 
 export const routes: Routes = [
   { path: '', component: Login },
@@ -14,5 +15,6 @@ export const routes: Routes = [
   { path: 'oferta-inmueble', component: OfertaInmueble },
   { path: 'generar-credito', component: GenerarCredito },
   { path: 'generar-cronograma', component: GenerarCronograma },
+  { path: 'preguntas-frecuentes', component: PreguntasFrecuentes },
   { path: '**', redirectTo: '/login' }
 ]

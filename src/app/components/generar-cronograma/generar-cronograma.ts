@@ -28,6 +28,7 @@ export class GenerarCronograma {
   grafico: any;
   mostrarGrafico: boolean = false;
   moneda: string = localStorage.getItem("currencyType") || "PEN";
+  mostrarAsistente: boolean = false;
 
   constructor(private pagosService: Pagos, private indicadoresService: Indicadores, private router: Router) { }
 
@@ -195,6 +196,10 @@ export class GenerarCronograma {
   esNegativo(valor: any): boolean {
     if (valor === null || valor === undefined) return false;
     return Number(valor) < 0;
+  }
+
+  toggleAsistente() {
+    this.mostrarAsistente = !this.mostrarAsistente;
   }
 
   logout() {

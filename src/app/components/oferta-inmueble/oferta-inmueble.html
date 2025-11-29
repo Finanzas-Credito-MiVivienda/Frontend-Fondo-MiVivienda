@@ -60,6 +60,13 @@
         <span class="text-xs mt-1">Cronograma</span>
     </a>
 
+    <!-- NUEVO: FAQ -->
+    <a routerLink="/preguntas-frecuentes" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+        class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+        <mat-icon class="text-white text-4xl">help_outline</mat-icon>
+        <span class="text-xs mt-1">FAQ</span>
+    </a>
+
 </aside>
 
 
@@ -142,21 +149,187 @@
 
                     <!-- pie: estado y botón alineados al fondo -->
                     <div class="mt-auto flex items-center justify-between pt-4">
-                        <span class="text-xs font-semibold px-2 py-1 rounded bg-black/70 text-white">{{
-                            item.estadoVivienda }}</span>
-                        <button (click)="financiar(item)"
-                            class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
-                            Financiar
-                        </button>
-                        <!-- <button (click)="financiar(item)" [disabled]="!puedeFinanciar(item)" class="px-4 py-2 rounded-lg text-white
-              transition 
-              bg-green-600 hover:bg-green-700
-              disabled:bg-gray-400 disabled:cursor-not-allowed">
-                            Financiar
-                        </button>-->
+
+                        <!-- Estado -->
+                        <span class="text-xs font-semibold px-2 py-1 rounded bg-black/70 text-white">
+                            {{ item.estadoVivienda }}
+                        </span>
+
+                        <div class="flex items-center gap-2">
+
+                            <!-- Botón editar -->
+                            <button (click)="abrirPopup(item)"
+                                class="bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-1">
+                                <mat-icon style="font-size:18px">edit</mat-icon>
+                            </button>
+
+                            <!-- Botón financiar -->
+                            <button (click)="financiar(item)"
+                                class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                                Financiar
+                            </button>
+
+                        </div>
+
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 </main>
+
+<!-- POPUP MODIFICAR INMUEBLE -->
+<div *ngIf="mostrarPopup" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+
+    <div class="bg-white rounded-2xl shadow-2xl p-8 w-[460px] relative animate-fadeIn">
+
+        <!-- Botón cerrar -->
+        <button (click)="cerrarPopup()"
+            class="absolute top-4 right-4 text-gray-500 hover:text-red-600 transition text-lg">
+            ✕
+        </button>
+
+        <!-- Título -->
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
+            Editar Inmueble
+        </h2>
+
+        <!-- CAMPOS -->
+        <div class="space-y-4">
+
+            <!-- Campo genérico reutilizable -->
+            <div>
+                <label class="font-semibold text-gray-700">Área (m²):</label>
+                <input type="text" class="border rounded-lg px-3 py-2 w-full bg-gray-100 mt-1"
+                    [value]="inmuebleEditando.areaM2" readonly />
+            </div>
+
+            <div>
+                <label class="font-semibold text-gray-700">Dirección:</label>
+                <input type="text" class="border rounded-lg px-3 py-2 w-full bg-gray-100 mt-1"
+                    [value]="inmuebleEditando.direccion" readonly />
+            </div>
+
+            <div>
+                <label class="font-semibold text-gray-700">Distrito:</label>
+                <input type="text" class="border rounded-lg px-3 py-2 w-full bg-gray-100 mt-1"
+                    [value]="inmuebleEditando.distrito" readonly />
+            </div>
+
+            <div>
+                <label class="font-semibold text-gray-700">Provincia:</label>
+                <input type="text" class="border rounded-lg px-3 py-2 w-full bg-gray-100 mt-1"
+                    [value]="inmuebleEditando.provincia" readonly />
+            </div>
+
+            <div>
+                <label class="font-semibold text-gray-700">Departamento:</label>
+                <input type="text" class="border rounded-lg px-3 py-2 w-full bg-gray-100 mt-1"
+                    [value]="inmuebleEditando.departamento" readonly />
+            </div>
+
+            <div>
+                <label class="font-semibold text-gray-700">Tipo de Vivienda:</label>
+                <input type="text" class="border rounded-lg px-3 py-2 w-full bg-gray-100 mt-1"
+                    [value]="inmuebleEditando.tipoVivienda" readonly />
+            </div>
+
+            <div>
+                <label class="font-semibold text-gray-700">Estado:</label>
+                <input type="text" class="border rounded-lg px-3 py-2 w-full bg-gray-100 mt-1"
+                    [value]="inmuebleEditando.estadoVivienda" readonly />
+            </div>
+
+            <!-- PRECIO MODIFICABLE -->
+            <div>
+                <label class="font-semibold text-gray-700">Precio de Venta (S/):</label>
+                <input type="text" [(ngModel)]="nuevoPrecioTexto" (input)="validarPrecio()" (blur)="formatearAlSalir()"
+                    class="border rounded-lg px-3 py-2 w-full text-right mt-1 focus:ring-2 focus:ring-blue-500"
+                    placeholder="0.00" />
+            </div>
+
+        </div>
+
+        <!-- BOTÓN GUARDAR -->
+        <button (click)="guardarPrecio()" class="w-full mt-7 bg-blue-600 text-white py-3 rounded-xl text-lg font-semibold
+             hover:bg-blue-700 active:scale-[0.98] transition">
+            Guardar Cambios
+        </button>
+
+    </div>
+</div>
+
+<!-- BOTÓN FLOTANTE DEL ASISTENTE -->
+<button class="fixed bottom-6 right-6 bg-red-700 text-white w-14 h-14 rounded-full shadow-xl 
+hover:bg-red-800 flex items-center justify-center z-10" (click)="toggleAsistente()">
+    <mat-icon>support_agent</mat-icon>
+</button>
+
+<!-- POPUP ASISTENTE -->
+<div *ngIf="mostrarAsistente" class="fixed bottom-28 right-6 bg-white shadow-2xl w-96 rounded-2xl border p-5 z-50">
+
+    <!-- Título y botón cerrar -->
+    <div class="flex justify-between items-center mb-3">
+        <h3 class="font-bold text-xl text-red-700 flex items-center gap-2">
+            <mat-icon>support_agent</mat-icon> Asistente Técnico
+        </h3>
+        <button (click)="toggleAsistente()" class="text-gray-500 hover:text-black text-lg">✕</button>
+    </div>
+
+    <p class="text-sm text-gray-700 mb-4">
+        Te guiaré para que encuentres el inmueble adecuado para ti:
+    </p>
+
+    <div class="space-y-4 text-sm">
+
+        <!-- Cómo usar los filtros -->
+        <div>
+            <p class="font-bold text-gray-800">🔍 Cómo usar los filtros</p>
+            <ul class="list-disc pl-5 text-gray-600">
+                <li>Busca por distrito, departamento o dirección.</li>
+                <li>Filtra por tipo de vivienda: tradicional, sostenible o integrador.</li>
+                <li>Filtra por estado de vivienda: construido, en construcción o terreno.</li>
+                <li>El filtro de precio te ayuda a reducir opciones rápidamente.</li>
+                <li>Área mínima te permite buscar inmuebles más amplios.</li>
+            </ul>
+        </div>
+
+        <!-- Información importante -->
+        <div>
+            <p class="font-bold text-gray-800">🏠 Información del inmueble</p>
+            <ul class="list-disc pl-5 text-gray-600">
+                <li>Verifica dirección, distrito y metraje.</li>
+                <li>Revisa el estado del inmueble: construido, en construcción o terreno.</li>
+                <li>El tipo de vivienda influye en el bono MiVivienda.</li>
+            </ul>
+        </div>
+
+        <!-- Financiamiento -->
+        <div>
+            <p class="font-bold text-gray-800">💳 Antes de financiar</p>
+            <ul class="list-disc pl-5 text-gray-600">
+                <li>La opción “Financiar” permite iniciar el proceso de simulación del crédito.</li>
+                <li>En la siguiente pantalla podrás seleccionar una entidad financiera.</li>
+                <li>Explora las alternativas para tomar la mejor decisión.</li>
+            </ul>
+
+        </div>
+
+        <!-- Edición -->
+        <div *ngIf="esAdmin">
+            <p class="font-bold text-gray-800">🛠 Funciones de administrador</p>
+            <ul class="list-disc pl-5 text-gray-600">
+                <li>Puedes editar el precio de venta desde el ícono de lápiz.</li>
+                <li>La edición solo afecta al precio, no a los demás datos.</li>
+                <li>Los cambios se aplican inmediatamente en la lista.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <button class="w-full mt-5 bg-red-700 text-white py-2 rounded-xl hover:bg-red-800" (click)="toggleAsistente()">
+        Entendido
+    </button>
+
+</div>

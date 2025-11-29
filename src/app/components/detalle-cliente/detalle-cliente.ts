@@ -20,7 +20,7 @@ export class DetalleCliente {
   mostrarPass: boolean = false;
   stepsCompletos = { step1: false, step2: false, step3: false, step4: false };
   modoPerfil: boolean = false;
-
+  mostrarAsistente: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -107,7 +107,7 @@ export class DetalleCliente {
         if (user.monthlyIncome) {
           localStorage.setItem("monthlyIncome", user.monthlyIncome);
         }
-        
+
         this.form.patchValue({
           name: user.name,
           lastName: user.lastName,
@@ -243,6 +243,11 @@ export class DetalleCliente {
   togglePassword() {
     this.mostrarPass = !this.mostrarPass;
   }
+
+  toggleAsistente() {
+    this.mostrarAsistente = !this.mostrarAsistente;
+  }
+
 
   irLogin() {
     if (this.modoPerfil) {

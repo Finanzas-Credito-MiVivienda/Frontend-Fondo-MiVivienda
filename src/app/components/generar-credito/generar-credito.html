@@ -56,6 +56,13 @@
     <span class="text-xs mt-2">Cronograma</span>
   </a>
 
+  <!-- NUEVO: FAQ -->
+  <a routerLink="/preguntas-frecuentes" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+    class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+    <mat-icon class="text-white text-4xl">help_outline</mat-icon>
+    <span class="text-xs mt-1">FAQ</span>
+  </a>
+
 </aside>
 
 
@@ -479,3 +486,68 @@
   </div>
 
 </main>
+
+<!-- BOTÓN FLOTANTE DEL ASISTENTE -->
+<button class="fixed bottom-6 right-6 bg-red-700 text-white w-14 h-14 rounded-full shadow-xl 
+hover:bg-red-800 flex items-center justify-center z-10" (click)="toggleAsistente()">
+  <mat-icon>support_agent</mat-icon>
+</button>
+
+<!-- POPUP ASISTENTE -->
+<div *ngIf="mostrarAsistente" class="fixed bottom-28 right-6 bg-white shadow-2xl w-96 rounded-2xl border p-5 z-50">
+
+  <!-- Título -->
+  <div class="flex justify-between items-center mb-3">
+    <h3 class="font-bold text-xl text-red-700 flex items-center gap-2">
+      <mat-icon>support_agent</mat-icon> Asistente Técnico
+    </h3>
+    <button (click)="toggleAsistente()" class="text-gray-500 hover:text-black text-lg">✕</button>
+  </div>
+
+  <p class="text-sm text-gray-700 mb-4">
+    Te ayudaré a completar correctamente los datos para generar tu crédito hipotecario.
+  </p>
+
+  <div class="space-y-4 text-sm">
+
+    <!-- Datos de la entidad -->
+    <div>
+      <p class="font-bold text-gray-800">🏦 Datos de la Entidad Financiera</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>Los datos mostrados provienen del registro que realizaste en la pantalla anterior.</li>
+        <li>Incluyen gastos iniciales, periódicos y seguros que tú ingresaste.</li>
+        <li>Solo están visibles para ayudarte a calcular el crédito correctamente.</li>
+      </ul>
+    </div>
+
+    <!-- Configuración del Crédito -->
+    <div>
+      <p class="font-bold text-gray-800">⚙️ Configuración del Crédito</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>La Tasa de Interés (TEA) puede mantenerse igual o puedes cambiarla para simular otro escenario.</li>
+        <li>Selecciona correctamente el tipo de tasa: Nominal o Efectiva.</li>
+        <li>El período de gracia puede ser Total o Parcial, y su valor máximo es de 6.</li>
+        <li>El número de años representa el plazo total del crédito.</li>
+        <li>COK (%): corresponde al costo de oportunidad del cliente.</li>
+        <li>% de Cuota Inicial debe ser coherente con el valor del inmueble.</li>
+        <li>“Días por año” se usa para el cálculo del interés.</li>
+      </ul>
+    </div>
+
+
+    <!-- Recomendaciones finales -->
+    <div>
+      <p class="font-bold text-gray-800">📌 Antes de continuar</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>Asegúrate de que todos los valores estén completos.</li>
+        <li>Presiona “Calcular” para generar los resultados del crédito.</li>
+        <li>Luego podrás revisar el cronograma y validar todas las cuotas.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <button class="w-full mt-5 bg-red-700 text-white py-2 rounded-xl hover:bg-red-800" (click)="toggleAsistente()">
+    Entendido
+  </button>
+</div>

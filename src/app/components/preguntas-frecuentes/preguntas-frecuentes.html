@@ -1,0 +1,114 @@
+<!-- HEADER -->
+<div class="fixed top-0 left-0 right-0 h-14 bg-red-900 z-50 flex items-center justify-center shadow-md">
+    <h1 class="text-white font-extrabold text-2xl tracking-wide">MIVIVIENDA INMOBILIARIA</h1>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="fixed top-14 left-0 bottom-0 w-32 bg-red-700 text-white z-40 flex flex-col items-center py-6 space-y-6">
+
+    <!-- USUARIO -->
+    <div class="w-full flex justify-center flex-none">
+        <button mat-icon-button [matMenuTriggerFor]="menuUsuario" aria-label="Abrir menú de usuario"
+            class="rounded-full p-0 flex items-center justify-center" style="width:60px;height:60px;">
+            <mat-icon style="font-size:44px; width:44px; height:44px; color:white;">account_circle</mat-icon>
+        </button>
+    </div>
+
+    <mat-menu #menuUsuario="matMenu">
+        <button mat-menu-item (click)="irPerfil()"><mat-icon>person</mat-icon>Perfil</button>
+        <button mat-menu-item (click)="logout()"><mat-icon>logout</mat-icon>Cerrar sesión</button>
+    </mat-menu>
+
+    <!-- LINKS -->
+    <a routerLink="/oferta-inmueble" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+        class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+        <mat-icon class="text-white text-4xl">home</mat-icon>
+        <span class="text-xs mt-1">Inmuebles</span>
+    </a>
+
+    <a routerLink="/registrar-entidad-financiera" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+        class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+        <mat-icon class="text-white text-4xl">account_balance</mat-icon>
+        <span class="text-xs mt-1">Entidad</span>
+    </a>
+
+    <a routerLink="/generar-credito" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+        class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+        <mat-icon class="text-white text-4xl">attach_money</mat-icon>
+        <span class="text-xs mt-1">Crédito</span>
+    </a>
+
+    <a routerLink="/generar-cronograma" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+        class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+        <mat-icon class="text-white text-4xl">event_note</mat-icon>
+        <span class="text-xs mt-1">Cronograma</span>
+    </a>
+
+    <!-- NUEVO: FAQ -->
+    <a routerLink="/preguntas-frecuentes" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+        class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+        <mat-icon class="text-white text-4xl">help_outline</mat-icon>
+        <span class="text-xs mt-1">FAQ</span>
+    </a>
+
+</aside>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main class="ml-32 mt-14 p-10 bg-[#f3f4f6] min-h-screen flex justify-center">
+
+    <!-- CONTENEDOR CENTRAL DEL FAQ -->
+    <div class="w-full max-w-3xl mx-auto">
+
+        <!-- TÍTULO -->
+        <div class="flex items-center gap-4 mb-8">
+            <div class="bg-red-700 text-white p-3 rounded-xl shadow-md">
+                <mat-icon class="text-3xl">help_outline</mat-icon>
+            </div>
+
+            <h1 class="text-4xl font-extrabold text-gray-800 tracking-tight">
+                Preguntas Frecuentes (FAQ)
+            </h1>
+        </div>
+
+        <p class="text-gray-600 mb-10 text-lg leading-relaxed">
+            Encuentra respuestas rápidas sobre el proceso de financiamiento, entidades, créditos y cronogramas
+            dentro de la plataforma <strong>MIVIVIENDA INMOBILIARIA</strong>.
+        </p>
+
+        <!-- CONTENEDOR DE FAQ -->
+        <div class="space-y-5">
+
+            <!-- COMPONENTE FAQ -->
+            <div *ngFor="let faq of faqs" class="bg-white shadow-lg rounded-2xl md:p-6 p-4 
+                    transition-all duration-300 
+                    hover:shadow-xl hover:shadow-red-300
+                    cursor-pointer">
+
+                <!-- PREGUNTA -->
+                <button class="w-full flex justify-between items-center 
+                           md:text-xl text-lg font-semibold text-gray-800 text-left" (click)="faq.open = !faq.open">
+
+                    <div class="flex items-center gap-3">
+                        <mat-icon class="text-red-700 md:text-3xl text-2xl">{{ faq.icon }}</mat-icon>
+                        {{ faq.pregunta }}
+                    </div>
+
+                    <mat-icon class="text-gray-600 transition-transform duration-300 md:text-3xl text-2xl"
+                        [ngClass]="faq.open ? 'rotate-180' : ''">
+                        expand_more
+                    </mat-icon>
+                </button>
+
+                <!-- RESPUESTA -->
+                <div class="mt-4 text-gray-600 md:text-base text-sm leading-relaxed pr-6
+                           transition-all duration-300 overflow-hidden" [style.maxHeight]="faq.open ? '500px' : '0px'">
+
+                    {{ faq.respuesta }}
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</main>

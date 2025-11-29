@@ -6,10 +6,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { CommonModule, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-agregar-entidad-financiera',
-  imports: [FormsModule, MatButtonModule, MatIconModule, MatMenuModule, RouterLink, RouterLinkActive],
+  imports: [FormsModule, MatButtonModule, MatIconModule, MatMenuModule, RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './agregar-entidad-financiera.html',
   styleUrl: './agregar-entidad-financiera.css',
 })
@@ -18,6 +19,16 @@ export class AgregarEntidadFinanciera {
   entidadSeleccionada: string = "";
   botonCreditoHabilitado: boolean = false;
   moneda: string = localStorage.getItem("currencyType") || "PEN";
+  monthlyIncome: number = 0;
+  mostrarAsistente: boolean = false;
+
+  ingresosMinimos: any = {
+    bcp: 1500,
+    interbank: 1000,
+    bbva: 1500,
+    scotiabank: 1500,
+    banbif: 1000
+  };
 
   entidad = {
     nombreEntidad: "",
@@ -49,6 +60,18 @@ export class AgregarEntidadFinanciera {
   ) { }
 
   cambiarLogo() {
+    if (!this.puedeElegirBanco(this.entidadSeleccionada)) {
+      this.snackbar.open(
+        "No cumple el ingreso mínimo para esta entidad financiera",
+        "OK",
+        { duration: 2500 }
+      );
+      this.entidadSeleccionada = "";
+      this.logoSeleccionado = "icon-bank.png";
+      this.entidad.nombreEntidad = "";
+      return;
+    }
+
     this.logoSeleccionado = this.logos[this.entidadSeleccionada] || "icon-bank.png";
     this.entidad.nombreEntidad = this.entidadSeleccionada.toUpperCase();
   }
@@ -83,6 +106,22 @@ export class AgregarEntidadFinanciera {
 
   getSimbolo() {
     return this.moneda === "USD" ? "$" : "S/";
+  }
+
+  puedeElegirBanco(banco: string): boolean {
+    const incomeStr = localStorage.getItem("monthlyIncome");
+    const monthlyIncome = incomeStr ? Number(incomeStr) : 0;
+
+    const minimo = this.ingresosMinimos[banco];
+
+    if (minimo == null) {
+      console.warn("Banco sin mínimo configurado:", banco);
+      return true;
+    }
+
+    const puede = monthlyIncome >= minimo;
+    //console.log(`Banco: ${banco} | ingreso: ${monthlyIncome} | mínimo: ${minimo} | puede: ${puede}`);
+    return puede;
   }
 
   // Validar solo números y máximo 3 decimales
@@ -133,6 +172,11 @@ export class AgregarEntidadFinanciera {
     input.value = `${enteros}.${decimales}`;
   }
 
+  toggleAsistente() {
+    this.mostrarAsistente = !this.mostrarAsistente;
+  }
+
+
   logout() {
     localStorage.removeItem("user_id");
     localStorage.removeItem("rol");
@@ -149,5 +193,4 @@ export class AgregarEntidadFinanciera {
 
     this.router.navigate(['/registro-usuario']);
   }
-
 }

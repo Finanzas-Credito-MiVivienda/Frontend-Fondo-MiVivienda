@@ -44,6 +44,13 @@
     <span class="text-xs mt-1">Cronograma</span>
   </a>
 
+  <!-- NUEVO: FAQ -->
+  <a routerLink="/preguntas-frecuentes" routerLinkActive="bg-red-900 border-l-4 border-white font-bold"
+    class="w-full h-20 flex flex-col items-center justify-center hover:bg-red-600">
+    <mat-icon class="text-white text-4xl">help_outline</mat-icon>
+    <span class="text-xs mt-1">FAQ</span>
+  </a>
+
 </aside>
 
 <!-- CONTENIDO -->
@@ -449,4 +456,93 @@
     </div>
 
   </div>
+</div>
+
+<!-- BOTÓN FLOTANTE DEL ASISTENTE -->
+<button class="fixed bottom-6 right-6 bg-red-700 text-white w-14 h-14 rounded-full shadow-xl 
+hover:bg-red-800 flex items-center justify-center z-50" (click)="toggleAsistente()">
+  <mat-icon>support_agent</mat-icon>
+</button>
+
+<!-- POPUP ASISTENTE (más grande, centrado y visible) -->
+<div *ngIf="mostrarAsistente"
+     class="fixed bottom-20 right-6 bg-white shadow-2xl w-[420px] rounded-2xl border p-6 z-50 max-h-[85vh] overflow-y-auto">
+
+  <!-- Título -->
+  <div class="flex justify-between items-center mb-4">
+    <h3 class="font-bold text-xl text-red-700 flex items-center gap-2">
+      <mat-icon>support_agent</mat-icon> Asistente Técnico
+    </h3>
+    <button (click)="toggleAsistente()" class="text-gray-500 hover:text-black text-lg">✕</button>
+  </div>
+
+  <p class="text-sm text-gray-700 mb-4">
+    Aquí podrás revisar el detalle del financiamiento y generar tu cronograma de pago:
+  </p>
+
+  <div class="space-y-4 text-sm">
+
+    <!-- Datos del Financiamiento -->
+    <div>
+      <p class="font-bold text-gray-800">💼 Datos del Financiamiento</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>Son los valores ingresados en pantallas anteriores.</li>
+        <li>Incluye préstamo, saldo, BBP, seguros y COK.</li>
+        <li>Se muestran solo en lectura.</li>
+      </ul>
+    </div>
+
+    <!-- Generar Tabla -->
+    <div>
+      <p class="font-bold text-gray-800">📊 Generar Tabla</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>Presiona <b>“Generar Tabla”</b> para ver todas las cuotas.</li>
+        <li>Incluye intereses, amortización y flujo de cada periodo.</li>
+        <li>Si cambiaste datos, asegúrate de haber guardado el crédito.</li>
+      </ul>
+    </div>
+
+    <!-- Totales -->
+    <div>
+      <p class="font-bold text-gray-800">🧮 Ver Totales</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>Muestra totales de intereses, comisiones y seguros.</li>
+        <li>Incluye flujo total acumulado.</li>
+      </ul>
+    </div>
+
+    <!-- Indicadores -->
+    <div>
+      <p class="font-bold text-gray-800">📈 Ver Indicadores</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>VAN, TIR, TCEA y COK aplicado.</li>
+        <li>Se calculan automáticamente con el cronograma.</li>
+      </ul>
+    </div>
+
+    <!-- Gráfico -->
+    <div>
+      <p class="font-bold text-gray-800">📉 Ver Gráfico</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>Muestra interés vs amortización por periodo.</li>
+        <li>Ideal para entender la evolución de la deuda.</li>
+      </ul>
+    </div>
+
+    <!-- Consejos -->
+    <div>
+      <p class="font-bold text-gray-800">⭐ Recomendaciones</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>Genera el crédito antes de revisar el cronograma.</li>
+        <li>Si modificas valores, recalcula la tabla.</li>
+        <li>Puedes guardar o exportar la información.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <button class="w-full mt-5 bg-red-700 text-white py-2 rounded-xl hover:bg-red-800"
+          (click)="toggleAsistente()">
+    Entendido
+  </button>
 </div>

@@ -7,6 +7,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, NgModel } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-oferta-inmueble',
@@ -26,9 +27,21 @@ export class OfertaInmueble {
 
   ingresoUsuario: number = 0;
 
-  constructor(private inmuebleService: Inmuebles, private router: Router) { }
+  mostrarPopup: boolean = false;
+  inmuebleEditando!: Inmueble;
+  nuevoPrecio: number = 0;
+  nuevoPrecioTexto: string = "";
+
+  mostrarAsistente: boolean = false;
+  esAdmin: boolean = false;
+
+
+  constructor(private inmuebleService: Inmuebles, private router: Router, private snackbar: MatSnackBar) { }
 
   ngOnInit(): void {
+    const rol = localStorage.getItem("rol");
+    this.esAdmin = rol === "ADMIN";
+    
     const ingreso = localStorage.getItem("monthlyIncome");
     this.ingresoUsuario = ingreso ? Number(ingreso) : 0;
 
@@ -37,12 +50,6 @@ export class OfertaInmueble {
       this.inmueblesOriginal = [...data];
     });
   }
-
-  /*puedeFinanciar(item: Inmueble): boolean {
-    // Regla simple: ingreso mínimo = 10% del precio de venta
-    const ingresoMinimo = item.precioVenta * 0.1;
-    return this.ingresoUsuario >= ingresoMinimo;
-  }*/
 
   financiar(item: Inmueble) {
     localStorage.setItem("inmuebleSeleccionado", JSON.stringify(item));
@@ -90,6 +97,106 @@ export class OfertaInmueble {
 
     this.inmuebles = datos;
   }
+
+  abrirPopup(item: Inmueble) {
+    this.inmuebleEditando = { ...item };
+
+    this.nuevoPrecioTexto = item.precioVenta.toString();
+
+    this.mostrarPopup = true;
+  }
+
+  cerrarPopup() {
+    this.mostrarPopup = false;
+  }
+
+  validarPrecio() {
+    let valor = this.nuevoPrecioTexto;
+
+    // Permitir solo dígitos y punto
+    valor = valor.replace(/[^0-9.]/g, "");
+
+    // No permitir punto al inicio
+    if (valor.startsWith(".")) {
+      valor = "";
+    }
+
+    // Solo un punto decimal
+    const partes = valor.split(".");
+    if (partes.length > 2) {
+      valor = partes[0] + "." + partes[1];
+    }
+
+    // Limitar a 2 decimales sin redondear
+    if (partes[1] && partes[1].length > 2) {
+      partes[1] = partes[1].substring(0, 2);
+      valor = partes[0] + "." + partes[1];
+    }
+
+    this.nuevoPrecioTexto = valor;
+  }
+
+  formatearAlSalir() {
+    if (!this.nuevoPrecioTexto) return;
+
+    let valor = this.nuevoPrecioTexto;
+
+    // Si no tiene punto, agregar .00
+    if (!valor.includes(".")) {
+      valor = valor + ".00";
+    }
+
+    let [enteros, decimales] = valor.split(".");
+
+    // Si no hay decimales, completar .00
+    if (!decimales) {
+      decimales = "00";
+    }
+
+    // Limitar decimales a máximo 2 sin redondear
+    decimales = decimales.substring(0, 2);
+
+    // Completar con ceros si falta
+    while (decimales.length < 2) {
+      decimales += "0";
+    }
+
+    this.nuevoPrecioTexto = `${enteros}.${decimales}`;
+  }
+
+  guardarPrecio() {
+    if (!this.nuevoPrecioTexto || Number(this.nuevoPrecioTexto) <= 0) {
+      console.log("El precio debe ser mayor a 0");
+      return;
+    }
+
+    const actualizado: Inmueble = {
+      ...this.inmuebleEditando,
+      precioVenta: Number(this.nuevoPrecioTexto)
+    };
+
+    this.inmuebleService.editInmueble(actualizado).subscribe({
+      next: () => {
+        // Actualizar inmediatamente en pantalla
+        this.inmuebles = this.inmuebles.map(item =>
+          item.id === actualizado.id ? actualizado : item
+        );
+
+        this.snackbar.open("Precio actualizado correctamente", "OK", { duration: 2500 });
+
+        this.cerrarPopup();
+      },
+      error: (err) => {
+        console.error(err);
+        alert("Error al actualizar el precio.");
+      }
+    });
+  }
+
+  toggleAsistente() {
+    this.mostrarAsistente = !this.mostrarAsistente;
+  }
+
 
   logout() {
     localStorage.removeItem("user_id");

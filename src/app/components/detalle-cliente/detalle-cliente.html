@@ -269,3 +269,74 @@
 
   </div>
 </div>
+
+<!-- BOTÓN FLOTANTE DEL ASISTENTE -->
+<button class="fixed bottom-6 right-6 bg-red-700 text-white w-14 h-14 rounded-full shadow-xl 
+hover:bg-red-800 flex items-center justify-center z-10" (click)="toggleAsistente()">
+  <mat-icon>support_agent</mat-icon>
+</button>
+
+<!-- POPUP ASISTENTE -->
+<div *ngIf="mostrarAsistente" class="fixed bottom-28 right-6 bg-white shadow-2xl w-96 rounded-2xl border p-5 z-50">
+
+  <!-- Título y botón cerrar -->
+  <div class="flex justify-between items-center mb-3">
+    <h3 class="font-bold text-xl text-red-700 flex items-center gap-2">
+      <mat-icon>support_agent</mat-icon> Asistente Técnico
+    </h3>
+    <button (click)="toggleAsistente()" class="text-gray-500 hover:text-black text-lg">✕</button>
+  </div>
+
+  <p class="text-sm text-gray-700 mb-4">
+    Te ayudaré a completar correctamente tu registro:
+  </p>
+
+  <div class="space-y-4 text-sm">
+
+    <!-- Datos Personales -->
+    <div>
+      <p class="font-bold text-gray-800">📌 Datos Personales</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>Ingresa nombres y apellidos como en tu DNI.</li>
+        <li>La fecha de nacimiento debe ser real, válida y debe indicar que eres mayor de 18 años.</li>
+        <li>DNI: 8 dígitos. RUC: 11 dígitos.</li>
+        <li>Selecciona estado civil y género.</li>
+      </ul>
+    </div>
+
+    <!-- Datos de Contacto -->
+    <div>
+      <p class="font-bold text-gray-800">📞 Datos de Contacto</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>La dirección debe incluir calle y número.</li>
+        <li>Teléfono debe tener 9 dígitos.</li>
+        <li>El correo será usado para recuperar tu cuenta.</li>
+      </ul>
+    </div>
+
+    <!-- Datos de Cuenta -->
+    <div>
+      <p class="font-bold text-gray-800">🔐 Datos de Cuenta</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>El usuario debe ser único.</li>
+        <li>Contraseña mínimo 8 caracteres.</li>
+        <li>Mejor si incluye números y letras.</li>
+      </ul>
+    </div>
+
+    <!-- Información Financiera -->
+    <div>
+      <p class="font-bold text-gray-800">💰 Información Financiera</p>
+      <ul class="list-disc pl-5 text-gray-600">
+        <li>Selecciona tu tipo de moneda.</li>
+        <li>El ingreso mensual determina si calificas a un crédito.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <button class="w-full mt-5 bg-red-700 text-white py-2 rounded-xl hover:bg-red-800" (click)="toggleAsistente()">
+    Entendido
+  </button>
+
+</div>

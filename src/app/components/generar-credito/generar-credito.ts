@@ -35,6 +35,8 @@ export class GenerarCredito {
   inmuebleSeleccionado: any;
   estadoConstruido: boolean = false;
 
+  mostrarAsistente: boolean = false;
+
 
   constructor(private router: Router, private creditoService: Creditos, private entidadesService: EntidadesFinancieras, private snackbar: MatSnackBar) { }
 
@@ -261,6 +263,9 @@ export class GenerarCredito {
     return this.estadoConstruido || this.tipoPeriodoGracia === "NINGUNO";
   }
 
+  toggleAsistente() {
+    this.mostrarAsistente = !this.mostrarAsistente;
+  }
 
   logout() {
     localStorage.removeItem("user_id");
