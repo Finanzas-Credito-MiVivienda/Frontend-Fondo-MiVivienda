@@ -6,6 +6,8 @@ import { GenerarCredito } from './components/generar-credito/generar-credito';
 import { GenerarCronograma } from './components/generar-cronograma/generar-cronograma';
 import { AgregarEntidadFinanciera } from './components/agregar-entidad-financiera/agregar-entidad-financiera';
 import { PreguntasFrecuentes } from './components/preguntas-frecuentes/preguntas-frecuentes';
+import { AutorizarLogeadoGuard } from './guards/autorizar-logueado-guard';
+import { AutorizarClienteGuard } from './guards/autorizar-client-guard';
 
 export const routes: Routes = [
   { path: '', component: Login },

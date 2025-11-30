@@ -11,7 +11,7 @@ import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-detalle-cliente',
-  imports: [ReactiveFormsModule, FormsModule, MatButtonModule, MatIconModule, MatMenuModule, RouterLink, NgClass, CommonModule],
+  imports: [ReactiveFormsModule, FormsModule, MatButtonModule, MatIconModule, MatMenuModule, NgClass, CommonModule],
   templateUrl: './detalle-cliente.html',
   styleUrl: './detalle-cliente.css',
 })
