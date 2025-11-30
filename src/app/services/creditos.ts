@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { CreditoRequest } from '../models/creditoRequest';
 import { CreditoResponse } from '../models/creditoResponse';
 import { environment } from '../../environments/environment';
-
+console.log('API URL:', environment.apiUrl);
 @Injectable({
   providedIn: 'root',
 })
