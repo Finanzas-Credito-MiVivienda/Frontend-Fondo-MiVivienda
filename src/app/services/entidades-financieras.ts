@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EntidadFinanciera } from '../models/entidad-financiera';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EntidadesFinancieras {
-  ruta_servidor: string = "http://localhost:8080/api/v1";
+  //ruta_servidor: string = "http://localhost:8080/api/v1";
+  ruta_servidor: string = environment.apiUrl
   recurso: string = "entidades-financieras";
 
   constructor(private http: HttpClient) { }

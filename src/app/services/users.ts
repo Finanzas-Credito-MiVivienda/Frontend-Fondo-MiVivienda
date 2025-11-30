@@ -4,12 +4,14 @@ import { Token } from '../models/token';
 import { tap } from 'rxjs';
 import { User } from '../models/user';
 import { Client } from '../models/client';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Users {
-  ruta_servidor: string = "http://localhost:8080/api/v1";
+  //ruta_servidor: string = "http://localhost:8080/api/v1";
+  ruta_servidor: string = environment.apiUrl
   recurso: string = "users";
 
   constructor(private http: HttpClient) { }
